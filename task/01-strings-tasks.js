@@ -234,7 +234,7 @@ function getRectangleString(width, height) {
                 }
             }
         }
-        result+='\''+str+'\n'+'\''+'+';
+        result+=str+'\n';
     }
     return result;
 }
