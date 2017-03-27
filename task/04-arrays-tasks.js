@@ -425,7 +425,7 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-    return arr.length = 0 ? 0 : arr.reduce(function (sum, current) {
+    return arr.length === 0 ? 0 : arr.reduce(function (sum, current) {
             return sum + current;
         });
 }

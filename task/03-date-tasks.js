@@ -103,7 +103,7 @@ function timeSpanToString(startDate, endDate) {
  */
 function angleBetweenClockHands(date) {
     var t = new Date(date);
-    return ((t.getUTCHours()*30 + t.getUTCHours()*0.5)%360)*2*Math.PI/360;
+    return ((t.getUTCHours()*30)%360)*2*Math.PI/360;
 }
 
 
