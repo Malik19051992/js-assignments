@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   return Date.parse(value);
+   return  new Date(Date.parse(value));
 }
 
 /**
@@ -56,7 +56,7 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-    return date.getYear() % 4 === 0;
+    return date.getFullYear() % 4 === 0 && (date.getFullYear() % 100!==0 || date.getFullYear() % 400===0);
 }
 
 
@@ -102,7 +102,8 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    return ((date.getHours()*30 + date.getMinutes()*0.5)%360)*2*Math.PI/360;
+    var t = new Date(date);
+    return ((t.getUTCHours()*30 + t.getUTCHours()*0.5)%360)*2*Math.PI/360;
 }
 
 

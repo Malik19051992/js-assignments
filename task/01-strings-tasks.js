@@ -227,7 +227,7 @@ function getRectangleString(width, height) {
                 }
             }else{
                 if(j===0||j===width-1){
-                    str+='|';
+                    str+='│';
                 }
                 else{
                     str+=' ';
