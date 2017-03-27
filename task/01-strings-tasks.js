@@ -204,29 +204,29 @@ function extractEmails(str) {
  */
 function getRectangleString(width, height) {
     var result ='';
-    for(var i=0;i<width;i++){
+    for(var i=0;i<height;i++){
         var str ='';
-        for(var j =0;j<height;j++){
+        for(var j =0;j<width;j++){
             if(i===0){
                 if(j===0){
                     str+='┌';
-                } else if(j===height-1){
+                } else if(j===width-1){
                     str+='┐';
                 }
                 else{
                     str+='─';
                 }
-            }else if(i===width-1) {
+            }else if(i===height-1) {
                 if(j===0){
                     str+='└';
-                } else if(j===height-1){
+                } else if(j===width-1){
                     str+='┘';
                 }
                 else{
                     str+='─';
                 }
             }else{
-                if(j===0||j===height-1){
+                if(j===0||j===width-1){
                     str+='|';
                 }
                 else{
