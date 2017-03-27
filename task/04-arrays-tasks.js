@@ -425,9 +425,9 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-    return arr.reduce(function (sum, current) {
-        return sum + current;
-    });
+    return arr.length = 0 ? 0 : arr.reduce(function (sum, current) {
+            return sum + current;
+        });
 }
 
 /**
@@ -484,7 +484,7 @@ function findAllOccurences(arr, item) {
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
 function toStringList(arr) {
-    arr, join(',');
+    return arr.join(',');
 }
 
 
@@ -722,23 +722,33 @@ function getElementByIndexes(arr, indexes) {
  */
 function swapHeadAndTail(arr) {
 
+    if (arr.length === 1)
+        return arr;
     var i = 0;
     var head = [];
-    for (i = 0; i < arr.length / 2 - 1; i++) {
+    var tail = [];
+    var parity = arr.length % 2;
+    var result;
+    var t;
+
+    for (i = 0; i < Math.floor(arr.length / 2); i++) {
         head.push(arr[i]);
     }
-    var t = i;
-    i += arr.length % 2;
-    var tail = [];
+    if (parity === 1) {
+        t = arr[i];
+        i++
+    }
     for (; i < arr.length; i++) {
         tail.push(arr[i]);
     }
-    var result = [];
-    result = result.concat(tail);
-    if (arr.length % 2 != 0)
-        result = result.concat(arr[t]);
-    result = result.concat(head);
-    return result;
+    if (parity === 0)
+        result = tail.concat(head);
+    else {
+        tail.push(t);
+        result = tail.concat(head);
+    }
+
+    return result
 }
 
 
