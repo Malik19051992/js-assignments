@@ -41,10 +41,11 @@ function generateOdds(len) {
     var array = new Array(len);
     (function next(index) {
         array[index] = index*2+1;
-        if(index<len){
-            generateOdds(index+1);
+        if(index<len-1){
+            next(index+1);
         }
     })(0);
+    return array;
 }
 
 
