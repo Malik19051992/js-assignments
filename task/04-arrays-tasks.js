@@ -39,9 +39,12 @@ function findElement(arr, value) {
  */
 function generateOdds(len) {
     var array = new Array(len);
-    return array.map(function (item,i) {
-        return i*2+1;
-    });
+    (function next(index) {
+        array[index] = index*2+1;
+        if(index<len){
+            generateOdds(index+1);
+        }
+    })(0);
 }
 
 
