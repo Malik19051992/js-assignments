@@ -136,7 +136,7 @@ function* breadthTraversalTree(root) {
         depthTraversalTree(child);
     }
     return;
-}
+
 }
 
 
