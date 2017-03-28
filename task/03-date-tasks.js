@@ -104,7 +104,7 @@ function timeSpanToString(startDate, endDate) {
 function angleBetweenClockHands(date) {
     var t = new Date(date);
     var result = ((t.getUTCHours()*30+t.getUTCMinutes()*0.5)%360)*2*Math.PI/360;
-    return result>Math.PI?result-Math.PI:result;
+    return result>Math.PI?2*Math.PI-result:result;
 }
 
 

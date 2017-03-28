@@ -39,11 +39,9 @@ function findElement(arr, value) {
  */
 function generateOdds(len) {
     var array = new Array(len);
-    array[0] = 1;
-    for (var i = 1; i < len; i++) {
-        array[i] = array[i - 1] + 2;
-    }
-    return array;
+    return array.map(function (item,i) {
+        return i*2+1;
+    });
 }
 
 

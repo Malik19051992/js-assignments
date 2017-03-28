@@ -471,7 +471,7 @@ function timespanToHumanString(startDate, endDate) {
     } else if(differentMilSecond/3600/24<=45){
         return 'a month ago'
     } else if(differentMilSecond/3600/24<=345){
-        return ((differentMilSecond/3600/24/30)%1>0.5? Math.floor(differentMilSecond/3600/24/30)+1:Math.floor(differentMilSecond/3600/24/30))+ 'months ago'
+        return ((differentMilSecond/3600/24/30)%1>0.5? Math.floor(differentMilSecond/3600/24/30)+1:Math.floor(differentMilSecond/3600/24/30))+ ' months ago'
     } else if(differentMilSecond/3600/24<=545){
         return 'a year ago'
     } else if(differentMilSecond/3600/24>545){
@@ -633,7 +633,6 @@ function evaluateTicTacToePosition(position) {
         var temp = position[i][0];
         if(temp===''||temp===null||temp===undefined){
             trueRow = false;
-            break;
         }
         for(var j =1;j<position.length;j++){
             if(temp!==position[i][j]){
@@ -651,7 +650,6 @@ function evaluateTicTacToePosition(position) {
         var temp = position[0][i];
         if(temp===''||temp===null||temp===undefined){
             trueColumn = false;
-            break;
         }
         for(var j =1;j<position.length;j++){
             if(temp!==position[j][i]){
