@@ -498,7 +498,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    return num.toString(n);
 }
 
 
@@ -515,7 +515,46 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    var arraysPathes = [];
+    for(var j=0;j<pathes.length;j++){
+        arraysPathes[j] = pathes[j].split('/');
+    }
+    var result = '';
+    var i = 0;
+    while (true){
+        var tempVal = null;
+        if(i<arraysPathes[0].length){
+            tempVal = arraysPathes[0][i];
+        } else{
+            break;
+        }
+        var trueIteration = true;
+        for(var j=0;j<arraysPathes.length;j++){
+            if(i<arraysPathes[j].length){
+                if(arraysPathes[j][i]!==tempVal){
+                    trueIteration = false;
+                    return result;
+                }
+            }else {
+                return result;
+            }
+        }
+        if(!trueIteration){
+            break
+
+        } else {
+            if (tempVal == '') {
+                result += '/';
+            } else {
+                result += tempVal + '/';
+            }
+        }
+        i++;
+        if(i>=arraysPathes[0].length){
+            break;
+        }
+    }
+    return result;
 }
 
 
@@ -538,7 +577,19 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    var resultMatr = [];
+    for(var k = 0;k<m1.length;k++) {
+        var arrIteration = [];
+        for (var i = 0; i < m1[k].length; i++) {
+            var summIteration = 0;
+            for (var j = 0; j < m2.length; j++) {
+                summIteration += m1[k][j] * m2[j][i];
+            }
+            arrIteration.push(summIteration);
+        }
+        resultMatr.push(arrIteration);
+    }
+    return resultMatr;
 }
 
 
@@ -573,7 +624,67 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    //проверяем линии
+    for(var i =0;i<position.length;i++){
+        var trueRow = true;
+        var temp = position[i][0];
+        if(temp===''){
+            trueRow = false;
+            break;
+        }
+        for(var j =1;j<position.length;j++){
+            if(temp!==position[i][j]){
+                trueRow = false;
+                break;
+            }
+        }
+        if(trueRow){
+            return temp;
+        }
+    }
+    //проверяем столбцы
+    for(var i =0;i<position.length;i++){
+        var trueColumn = true;
+        var temp = position[0][i];
+        if(temp===''){
+            trueColumn = false;
+            break;
+        }
+        for(var j =1;j<position.length;j++){
+            if(temp!==position[j][i]){
+                trueColumn = false;
+                break;
+            }
+        }
+        if(trueColumn){
+            return temp;
+        }
+    }
+    //Проверяем диагонали
+    var trueDiag1 = true;
+    var trueDiag2 = true;
+    var temp1;
+    var temp2;
+    for(var i =1;i<position.length;i++) {
+        temp1 = position[0][0];
+        if (temp1 === ''||temp1!==position[i][i]) {
+            trueDiag1 = false;
+        }
+        temp2 = position[0][position.length-1-i];
+        if (temp2 === ''||temp2!==position[i][position.length-1-i]) {
+            trueDiag2 = false;
+        }
+    }
+    if(trueDiag1){
+        return temp1;
+    } else if(trueDiag2){
+        return temp2;
+    } else {
+        return undefined;
+    }
+
+
+
 }
 
 
