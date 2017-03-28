@@ -173,7 +173,7 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-    return (circle.center.x - point.x) * (circle.center.x - point.x) + (circle.center.y - point.y) * (circle.center.y - point.y) <= circle.radius*circle.radius;
+    return (circle.center.x - point.x) * (circle.center.x - point.x) + (circle.center.y - point.y) * (circle.center.y - point.y) < circle.radius*circle.radius;
 }
 
 
@@ -453,29 +453,29 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    var differentSecond = (endDate - startDate)/1000;
-    if(differentSecond<=45){
+    var differentMilSecond = (endDate - startDate)/1000;
+    if(differentMilSecond<=45){
         return 'a few seconds ago'
-    } else if(differentSecond<=90){
+    } else if(differentMilSecond<=90){
         return 'a minute ago'
-    } else if(differentSecond/60<=45){
-        return  Math.floor(differentSecond/60) + ' minutes ago'
-    } else if(differentSecond/60<=90){
+    } else if(differentMilSecond/60<=45){
+        return ((differentMilSecond/60)%1>0.5? Math.floor(differentMilSecond/60)+1:Math.floor(differentMilSecond/60)) + ' minutes ago'
+    } else if(differentMilSecond/60<=90){
         return 'an hour ago'
-    } else if(differentSecond/3600<=22){
-        return Math.floor(differentSecond/3600)+' hours ago'
-    } else if(differentSecond/3600<=36){
+    } else if(differentMilSecond/3600<=22){
+        return ((differentMilSecond/3600)%1>0.5? Math.floor(differentMilSecond/3600)+1:Math.floor(differentMilSecond/3600))+' hours ago'
+    } else if(differentMilSecond/3600<=36){
         return 'a day ago'
-    } else if(differentSecond/3600/24<=25){
-        return Math.floor(differentSecond/3600/24) + ' days ago'
-    } else if(differentSecond/3600/24<=45){
+    } else if(differentMilSecond/3600/24<=25){
+        return ((differentMilSecond/3600/24)%1>0.5? Math.floor(differentMilSecond/3600/24)+1:Math.floor(differentMilSecond/3600/24)) + ' days ago'
+    } else if(differentMilSecond/3600/24<=45){
         return 'a month ago'
-    } else if(differentSecond/3600/24<=345){
-        return Math.floor(differentSecond/3600/24/30)+ 'months ago'
-    } else if(differentSecond/3600/24<=545){
+    } else if(differentMilSecond/3600/24<=345){
+        return ((differentMilSecond/3600/24/30)%1>0.5? Math.floor(differentMilSecond/3600/24/30)+1:Math.floor(differentMilSecond/3600/24/30))+ 'months ago'
+    } else if(differentMilSecond/3600/24<=545){
         return 'a year ago'
-    } else if(differentSecond/3600/24>545){
-        return  Math.floor(differentSecond/3600/24/365)+' years ago'
+    } else if(differentMilSecond/3600/24>545){
+        return  ((differentMilSecond/3600/24/365)%1>0.5? Math.floor(differentMilSecond/3600/24/365)+1:Math.floor(differentMilSecond/3600/24/365))+' years ago'
     }
 
 }
@@ -631,7 +631,7 @@ function evaluateTicTacToePosition(position) {
     for(var i =0;i<position.length;i++){
         var trueRow = true;
         var temp = position[i][0];
-        if(temp===''){
+        if(temp===''||temp===null||temp===undefined){
             trueRow = false;
             break;
         }
@@ -649,7 +649,7 @@ function evaluateTicTacToePosition(position) {
     for(var i =0;i<position.length;i++){
         var trueColumn = true;
         var temp = position[0][i];
-        if(temp===''){
+        if(temp===''||temp===null||temp===undefined){
             trueColumn = false;
             break;
         }
@@ -670,11 +670,11 @@ function evaluateTicTacToePosition(position) {
     var temp2;
     for(var i =1;i<position.length;i++) {
         temp1 = position[0][0];
-        if (temp1 === ''||temp1!==position[i][i]) {
+        if (temp1 === ''||temp1===null||temp1===undefined||temp1!==position[i][i]) {
             trueDiag1 = false;
         }
         temp2 = position[0][position.length-1];
-        if (temp2 === ''||temp2!==position[i][position.length-1-i]) {
+        if (temp2 === ''||temp2===null||temp2===undefined||temp2!==position[i][position.length-1-i]) {
             trueDiag2 = false;
         }
     }
