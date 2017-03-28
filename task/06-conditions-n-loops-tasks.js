@@ -173,7 +173,7 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-    return (circle.center.x - point.x) * (circle.center.x - point.x) + (circle.center.y - point.y) * (circle.center.y - point.y) <= circle.radius;
+    return (circle.center.x - point.x) * (circle.center.x - point.x) + (circle.center.y - point.y) * (circle.center.y - point.y) <= circle.radius*circle.radius;
 }
 
 
@@ -239,7 +239,10 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
     else {
         strResult += '(';
     }
-    strResult += a + ', ' + b;
+    if(a<b)
+        strResult += a + ', ' + b;
+    else
+        strResult += b + ', ' + a;
     if (isEndIncluded) {
         strResult += ']';
     }
@@ -456,23 +459,23 @@ function timespanToHumanString(startDate, endDate) {
     } else if(differentSecond<=90){
         return 'a minute ago'
     } else if(differentSecond/60<=45){
-        return  Math.round(differentSecond/60) + ' minutes ago'
+        return  Math.floor(differentSecond/60) + ' minutes ago'
     } else if(differentSecond/60<=90){
         return 'an hour ago'
     } else if(differentSecond/3600<=22){
-        return Math.round(differentSecond/3600)+' hours ago'
+        return Math.floor(differentSecond/3600)+' hours ago'
     } else if(differentSecond/3600<=36){
         return 'a day ago'
     } else if(differentSecond/3600/24<=25){
-        return Math.round(differentSecond/3600/24) + ' days ago'
+        return Math.floor(differentSecond/3600/24) + ' days ago'
     } else if(differentSecond/3600/24<=45){
         return 'a month ago'
     } else if(differentSecond/3600/24<=345){
-        return Math.round(differentSecond/3600/24/30)+ 'months ago'
+        return Math.floor(differentSecond/3600/24/30)+ 'months ago'
     } else if(differentSecond/3600/24<=545){
         return 'a year ago'
     } else if(differentSecond/3600/24>545){
-        return  Math.round(differentSecond/3600/24/365)+' years ago'
+        return  Math.floor(differentSecond/3600/24/365)+' years ago'
     }
 
 }
@@ -580,7 +583,7 @@ function getMatrixProduct(m1, m2) {
     var resultMatr = [];
     for(var k = 0;k<m1.length;k++) {
         var arrIteration = [];
-        for (var i = 0; i < m1[k].length; i++) {
+        for (var i = 0; i < m1.length; i++) {
             var summIteration = 0;
             for (var j = 0; j < m2.length; j++) {
                 summIteration += m1[k][j] * m2[j][i];
@@ -670,21 +673,18 @@ function evaluateTicTacToePosition(position) {
         if (temp1 === ''||temp1!==position[i][i]) {
             trueDiag1 = false;
         }
-        temp2 = position[0][position.length-1-i];
+        temp2 = position[0][position.length-1];
         if (temp2 === ''||temp2!==position[i][position.length-1-i]) {
             trueDiag2 = false;
         }
     }
     if(trueDiag1){
         return temp1;
-    } else if(trueDiag2){
-        return temp2;
-    } else {
-        return undefined;
     }
-
-
-
+    if(trueDiag2){
+        return temp2;
+    }
+    return undefined;
 }
 
 
