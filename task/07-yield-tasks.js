@@ -138,9 +138,10 @@ function* breadthTraversalTree(root) {
     nextQueue.push(root);
     while(true){
         queue = queue.concat(nextQueue);
-        for(var elem in nextQueue){
-            for(var ce in elem.children){
-                tempQueue.push(ce);
+        for(var i =0;i<nextQueue.length;i++){
+            if( nextQueue[i].hasOwnProperty('children'))
+            for(var j =0;j< nextQueue[i].children.length;j++){
+                tempQueue.push(nextQueue[i].children[j]);
             }
         }
         nextQueue = tempQueue;
@@ -149,7 +150,7 @@ function* breadthTraversalTree(root) {
     }
 
     for(var i =0;i<queue.length;i++){
-        yield queue[i];
+        yield queue[i].n;
     }
 
 
