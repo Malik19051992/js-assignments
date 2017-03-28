@@ -34,15 +34,15 @@
  */
 function* get99BottlesOfBeer() {
     yield '99 bottles of beer on the wall, 99 bottles of beer.';
-    for(var i= 98;i>1;i--){
-        yield 'Take one down and pass it around, '+i+' bottles of beer on the wall.';
-        yield i+' bottles of beer on the wall, '+i+' bottles of beer.';
+    for (var i = 98; i > 1; i--) {
+        yield 'Take one down and pass it around, ' + i + ' bottles of beer on the wall.';
+        yield i + ' bottles of beer on the wall, ' + i + ' bottles of beer.';
     }
     yield 'Take one down and pass it around, 1 bottle of beer on the wall.';
     yield '1 bottle of beer on the wall, 1 bottle of beer.';
     yield'Take one down and pass it around, no more bottles of beer on the wall.';
     yield    'No more bottles of beer on the wall, no more bottles of beer.';
-    return   'Go to the store and buy some more, 99 bottles of beer on the wall.';
+    return 'Go to the store and buy some more, 99 bottles of beer on the wall.';
 }
 
 
@@ -60,7 +60,7 @@ function* getFibonacciSequence() {
     var second = 1;
     yield first;
     yield second;
-    while (true){
+    while (true) {
         var temp = second;
         second += first;
         first = temp;
@@ -102,7 +102,7 @@ function* getFibonacciSequence() {
  */
 function* depthTraversalTree(root) {
     yield root.n;
-    for(var child in root.children){
+    for (var child in root.children) {
         depthTraversalTree(child);
     }
     return;
@@ -131,12 +131,29 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    yield root.n;
-    for(var child in root.children){
-        depthTraversalTree(child);
-    }
-    return;
+    var queue = [];
+    var nextQueue = [];
+    var tempQueue = [];
 
+    nextQueue.push(root);
+    while(true){
+        queue = queue.concat(nextQueue);
+        for(var elem in nextQueue){
+            for(var ce in elem.children){
+                tempQueue.push(ce);
+            }
+        }
+        nextQueue = tempQueue;
+        tempQueue =[];
+        if(nextQueue.length==0) break;
+    }
+
+    for(var i =0;i<queue.length;i++){
+        yield queue[i];
+    }
+
+
+    return;
 }
 
 
@@ -154,7 +171,13 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
+    var array = source1.concat(source2);
+    array.sort();
+    for (var i in array) {
+        yield i;
+    }
+    return;
+
 }
 
 
