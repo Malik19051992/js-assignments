@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   return  new Date(value);
+   return  Date.parse(value);
 }
 
 /**
@@ -103,7 +103,7 @@ function timeSpanToString(startDate, endDate) {
  */
 function angleBetweenClockHands(date) {
     var t = new Date(date);
-    var result = ((t.getUTCHours()*30)%360)*2*Math.PI/360;
+    var result = ((t.getUTCHours()*30+t.getUTCMinutes()*0.5)%360)*2*Math.PI/360;
     return result>Math.PI?result-Math.PI:result;
 }
 
