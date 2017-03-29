@@ -105,18 +105,20 @@ function* depthTraversalTree(root) {
 
     var queue = [];
     queue.push(root);
-    (function getChild(elem) {
-        for (var child of elem.children) {
-            if(child.hasOwnProperty('children')){
-                queue.push(child);
-                getChild(child);
-            }else{
-                queue.push(child);
+    var i =0;
+    while (true){
+        var j=0;
+        if(queue[i].hasOwnProperty('children'))
+            for(var elem of  queue[i].children){
+                queue.splice(i + ++j,0,elem)
             }
+        i++;
+        if(i>=queue.length){
+            break
         }
-    })(root)
+    }
 
-    for(var i =0;i<queue.length;i++){
+    for (var i = 0; i < queue.length; i++) {
         yield queue[i];
     }
     return;
@@ -150,20 +152,20 @@ function* breadthTraversalTree(root) {
     var tempQueue = [];
 
     nextQueue.push(root);
-    while(true){
+    while (true) {
         queue = queue.concat(nextQueue);
-        for(var i =0;i<nextQueue.length;i++){
-            if( nextQueue[i].hasOwnProperty('children'))
-            for(var j =0;j< nextQueue[i].children.length;j++){
-                tempQueue.push(nextQueue[i].children[j]);
-            }
+        for (var i = 0; i < nextQueue.length; i++) {
+            if (nextQueue[i].hasOwnProperty('children'))
+                for (var j = 0; j < nextQueue[i].children.length; j++) {
+                    tempQueue.push(nextQueue[i].children[j]);
+                }
         }
         nextQueue = tempQueue;
-        tempQueue =[];
-        if(nextQueue.length==0) break;
+        tempQueue = [];
+        if (nextQueue.length == 0) break;
     }
 
-    for(var i =0;i<queue.length;i++){
+    for (var i = 0; i < queue.length; i++) {
         yield queue[i];
     }
 
@@ -186,8 +188,17 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-   var value1 = source1();
-   var value1 = source2();
+    var val1 = source1.next().value;
+    var val2 = source2.next().value;
+    while (true) {
+        if (val1 < val2) {
+            yield val1;
+            val1 = source1.next().value;
+        } else {
+            yield val2;
+            val2 = source2.next().value;
+        }
+    }
 }
 
 
