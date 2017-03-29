@@ -113,101 +113,36 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-    elemValue:'',
-    idValue:'',
-    pseudoClasses:[],
-    pseudoElements:[],
-    classes:[],
-    attributties:[],
-    combElems:'',
+
     element: function(value) {
-        this.elemValue = value;
-        return this.copyObject();
+        throw new Error('');
     },
 
     id: function(value) {
-        this.idValue = value;
-        return this.copyObject();
+        throw new Error('');
     },
 
     class: function(value) {
-        this.classes.push(value);
-        return this.copyObject();
+        throw new Error('');
     },
 
     attr: function(value) {
-        this.attributties.push(value);
-        return this.copyObject();
+        throw new Error('');
     },
 
     pseudoClass: function(value) {
-        this.pseudoClasses.push(value);
-        return this.copyObject();
+        throw new Error('');
     },
 
     pseudoElement: function(value) {
-        this.pseudoElements.push(value);
-        return this.copyObject();
+        throw new Error('');
     },
 
     combine: function(selector1, combinator, selector2) {
-        this.combElems = combinator+' '+selector2.stringify();
-        return this.copyObject();
+        throw new Error('');
     },
     stringify: function () {
 
-        var tempStr='';
-        if(this.elemValue!=''){
-            tempStr+=this.elemValue;
-        }
-
-        if(this.idValue!==''){
-            tempStr+='#'+this.idValue;
-        }
-
-        if(this.classes.length!==0){
-            for(var i=0;i<this.classes.length;i++) {
-                tempStr += '.' + this.classes[i];
-            }
-        }
-
-        if(this.attributties.length!==0){
-            tempStr +='[';
-            for(var i=0;i<this.attributties.length;i++) {
-                tempStr += (i==0?'':' ')+ this.attributties[i];
-            }
-            tempStr +=']';
-        }
-        if(this.pseudoClasses.length!==0){
-            for(var i=0;i<this.pseudoClasses.length;i++) {
-                tempStr += ':' + this.pseudoClasses[i];
-            }
-        }
-        if(this.pseudoElements.length!==0){
-            for(var i=0;i<this.pseudoElements.length;i++) {
-                tempStr += '::' + this.pseudoElements[i];
-            }
-        }
-        this.elemValue='';
-        this.idValue='';
-        this.pseudoClasses=[];
-        this.pseudoElements=[];
-        this.classes=[];
-        this.attributties=[];
-        if(this.combElems!=='') {
-            var temp = this.combElems;
-            this.combElems='';
-            return tempStr + ' ' + temp;
-        }
-        return tempStr;
-    },
-
-    copyObject : function() {
-        var copy = {};
-        for (var key in this) {
-            copy[key] = this[key];
-        }
-        return copy;
     }
 
 };
