@@ -199,12 +199,10 @@ function* mergeSortedSequences(source1, source2) {
         if(val1===undefined||val1===null){
             yield val2;
             val2 = iterator2.next().value;
-        }
-        if(val2===undefined||val2===null){
+        }else if(val2===undefined||val2===null){
             yield val1;
             val1 = iterator1.next().value;
-        }
-        if (val1 < val2) {
+        }else if (val1 < val2) {
             yield val1;
             val1 = iterator1.next().value;
         } else {
