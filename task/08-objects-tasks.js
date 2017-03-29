@@ -122,37 +122,37 @@ const cssSelectorBuilder = {
     combElems:'',
     element: function(value) {
         this.elemValue = value;
-        return this;
+        return this.copyObject();
     },
 
     id: function(value) {
         this.idValue = value;
-        return this;
+        return this.copyObject();
     },
 
     class: function(value) {
         this.classes.push(value);
-        return this;
+        return this.copyObject();
     },
 
     attr: function(value) {
         this.attributties.push(value);
-        return this;
+        return this.copyObject();
     },
 
     pseudoClass: function(value) {
         this.pseudoClasses.push(value);
-        return this;
+        return this.copyObject();
     },
 
     pseudoElement: function(value) {
         this.pseudoElements.push(value);
-        return this;
+        return this.copyObject();
     },
 
     combine: function(selector1, combinator, selector2) {
         this.combElems = combinator+' '+selector2.stringify();
-        return this;
+        return this.copyObject();
     },
     stringify: function () {
 
@@ -200,7 +200,16 @@ const cssSelectorBuilder = {
             return tempStr + ' ' + temp;
         }
         return tempStr;
+    },
+
+    copyObject : function() {
+        var copy = {};
+        for (var key in this) {
+            copy[key] = this[key];
+        }
+        return copy;
     }
+
 };
 
 
