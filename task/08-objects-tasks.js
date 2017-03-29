@@ -42,7 +42,7 @@ function Rectangle(width, height) {
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
 function getJSON(obj) {
-    return obj.toJSON();
+    return JSON.stringify(obj);
 }
 
 
@@ -58,7 +58,7 @@ function getJSON(obj) {
  *
  */
 function fromJSON(proto, json) {
-    var o = fromJSON(json);
+    var o = JSON.parse(json);
     o.__proto__ = proto;
     return o;
 }
@@ -113,34 +113,94 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
-
+    elemValue:'',
+    idValue:'',
+    pseudoClasses:[],
+    pseudoElements:[],
+    classes:[],
+    attributties:[],
+    combElems:'',
     element: function(value) {
-        throw new Error('Not implemented');
+        this.elemValue = value;
+        return this;
     },
 
     id: function(value) {
-        throw new Error('Not implemented');
+        this.idValue = value;
+        return this;
     },
 
     class: function(value) {
-        throw new Error('Not implemented');
+        this.classes.push(value);
+        return this;
     },
 
     attr: function(value) {
-        throw new Error('Not implemented');
+        this.attributties.push(value);
+        return this;
     },
 
     pseudoClass: function(value) {
-        throw new Error('Not implemented');
+        this.pseudoClasses.push(value);
+        return this;
     },
 
     pseudoElement: function(value) {
-        throw new Error('Not implemented');
+        this.pseudoElements.push(value);
+        return this;
     },
 
     combine: function(selector1, combinator, selector2) {
-        throw new Error('Not implemented');
+        this.combElems = combinator+' '+selector2.stringify();
+        return this;
     },
+    stringify: function () {
+
+        var tempStr='';
+        if(this.elemValue!=''){
+            tempStr+=this.elemValue;
+        }
+
+        if(this.idValue!==''){
+            tempStr+='#'+this.idValue;
+        }
+
+        if(this.classes.length!==0){
+            for(var i=0;i<this.classes.length;i++) {
+                tempStr += '.' + this.classes[i];
+            }
+        }
+
+        if(this.attributties.length!==0){
+            tempStr +='[';
+            for(var i=0;i<this.attributties.length;i++) {
+                tempStr += (i==0?'':' ')+ this.attributties[i];
+            }
+            tempStr +=']';
+        }
+        if(this.pseudoClasses.length!==0){
+            for(var i=0;i<this.pseudoClasses.length;i++) {
+                tempStr += ':' + this.pseudoClasses[i];
+            }
+        }
+        if(this.pseudoElements.length!==0){
+            for(var i=0;i<this.pseudoElements.length;i++) {
+                tempStr += '::' + this.pseudoElements[i];
+            }
+        }
+        this.elemValue='';
+        this.idValue='';
+        this.pseudoClasses=[];
+        this.pseudoElements=[];
+        this.classes=[];
+        this.attributties=[];
+        if(this.combElems!=='') {
+            var temp = this.combElems;
+            this.combElems='';
+            return tempStr + ' ' + temp;
+        }
+        return tempStr;
+    }
 };
 
 
