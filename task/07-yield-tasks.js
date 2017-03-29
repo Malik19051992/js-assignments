@@ -102,9 +102,22 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    yield root;
-    for (var child in root.children) {
-        depthTraversalTree(child);
+
+    var queue = [];
+    queue.push(root);
+    (function getChild(elem) {
+        for (var child of elem.children) {
+            if(child.hasOwnProperty('children')){
+                queue.push(child);
+                getChild(child);
+            }else{
+                queue.push(child);
+            }
+        }
+    })(root)
+
+    for(var i =0;i<queue.length;i++){
+        yield queue[i];
     }
     return;
 }
