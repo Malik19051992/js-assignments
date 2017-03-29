@@ -42,7 +42,8 @@ function* get99BottlesOfBeer() {
     yield '1 bottle of beer on the wall, 1 bottle of beer.';
     yield'Take one down and pass it around, no more bottles of beer on the wall.';
     yield    'No more bottles of beer on the wall, no more bottles of beer.';
-    return 'Go to the store and buy some more, 99 bottles of beer on the wall.';
+    yield 'Go to the store and buy some more, 99 bottles of beer on the wall.';
+    return;
 }
 
 
@@ -150,7 +151,7 @@ function* breadthTraversalTree(root) {
     }
 
     for(var i =0;i<queue.length;i++){
-        yield queue[i].n;
+        yield queue[i];
     }
 
 
