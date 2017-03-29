@@ -95,12 +95,12 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
+    var val = null;
     return function () {
-        var val = null;
         if (val == null) {
             val = func();
         }
-        return null;
+        return val;
     }
 }
 
@@ -165,13 +165,15 @@ function logger(func, logFunc) {
     return function(){
         var resultStr = func.name+'(';
         var array = Array.prototype.slice.call(arguments, 0);
-        for(var i =0;i<array.length;i++){
-            resultStr+=(i===0?'':',')+array[i];
-        }
+       if(array.length===1)
+            resultStr+=array[0];
+       else
+           resultStr+=array;
+
         resultStr+= ')';
-        logFunc(resultStr+' start\n');
+        logFunc(resultStr+' starts\n');
         var result = func.apply({},array);
-        logFunc(resultStr+' end\n');
+        logFunc(resultStr+' ends\n');
         return result
     }
 }
