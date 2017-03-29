@@ -162,18 +162,28 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    return function(){
-        var resultStr = func.name+'(';
+    return function () {
+        var resultStr = func.name + '(';
         var array = Array.prototype.slice.call(arguments, 0);
-       if(array.length===1)
-            resultStr+=array[0];
-       else
-           resultStr+=array;
-
-        resultStr+= ')';
-        logFunc(resultStr+' starts\n');
-        var result = func.apply({},array);
-        logFunc(resultStr+' ends\n');
+        resultStr += array;
+        /*if (array.length === 1)
+            resultStr += array[0];
+        else {
+            resultStr+='['
+            for (var i = 0; i < array.length; i++) {
+                if (typeof array[i] == 'string') {
+                    resultStr += '"' + array[0] + '"';
+                }
+                else {
+                    resultStr += array[0];
+                }
+            }
+        }
+        */
+        resultStr += ')';
+        logFunc(resultStr + ' starts\n');
+        var result = func.apply({}, array);
+        logFunc(resultStr + ' ends\n');
         return result
     }
 }
@@ -194,9 +204,9 @@ function logger(func, logFunc) {
  */
 function partialUsingArguments(fn) {
     var array = Array.prototype.slice.call(arguments, 0);
-    array.splice(0,1);
+    array.splice(0, 1);
     return function () {
-        return fn.apply({},array.concat(Array.prototype.slice.call(arguments, 0)))
+        return fn.apply({}, array.concat(Array.prototype.slice.call(arguments, 0)))
     }
 }
 
