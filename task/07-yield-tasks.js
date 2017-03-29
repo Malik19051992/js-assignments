@@ -196,6 +196,14 @@ function* mergeSortedSequences(source1, source2) {
     var val1 = iterator1.next().value;
     var val2 = iterator2.next().value;
     while (true) {
+        if(!val1){
+            yield val2;
+            val2 = iterator2.next().value;
+        }
+        if(!val2){
+            yield val1;
+            val1 = iterator2.next().value;
+        }
         if (val1 < val2) {
             yield val1;
             val1 = iterator1.next().value;
