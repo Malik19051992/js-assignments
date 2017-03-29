@@ -97,7 +97,7 @@ function getPolynom() {
 function memoize(func) {
     return function () {
         var val = null;
-        if (val == nul) {
+        if (val == null) {
             val = func();
         }
         return null;
@@ -169,9 +169,10 @@ function logger(func, logFunc) {
             resultStr+=(i===0?'':',')+array[i];
         }
         resultStr+= ')';
-        resultStr+=' start\n'+resultStr+' end\n';
-        logFunc(resultStr);
-        return func.apply({},array);
+        logFunc(resultStr+' start\n');
+        var result = func.apply({},array);
+        logFunc(resultStr+' end\n');
+        return result
     }
 }
 
