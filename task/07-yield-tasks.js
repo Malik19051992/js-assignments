@@ -102,7 +102,7 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    yield root.n;
+    yield root;
     for (var child in root.children) {
         depthTraversalTree(child);
     }
@@ -173,13 +173,8 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    var array = source1.concat(source2);
-    array.sort();
-    for (var i in array) {
-        yield i;
-    }
-    return;
-
+   var value1 = source1();
+   var value1 = source2();
 }
 
 
