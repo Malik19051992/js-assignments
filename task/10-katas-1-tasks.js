@@ -34,7 +34,7 @@ function createCompassPoints() {
     currentValueAzimuth += baseValue;
     result.push(new elem('NNE', currentValueAzimuth));
     currentValueAzimuth += baseValue;
-    result.push(new elem(' NEbN', currentValueAzimuth));
+    result.push(new elem('NEbN', currentValueAzimuth));
     currentValueAzimuth += baseValue;
     result.push(new elem('NE', currentValueAzimuth));
     currentValueAzimuth += baseValue;
@@ -70,7 +70,7 @@ function createCompassPoints() {
     currentValueAzimuth += baseValue;
     result.push(new elem('SW', currentValueAzimuth));
     currentValueAzimuth += baseValue;
-    result.push(new elem('SWb', currentValueAzimuth));
+    result.push(new elem('SWbW', currentValueAzimuth));
     currentValueAzimuth += baseValue;
     result.push(new elem('WSW', currentValueAzimuth));
     currentValueAzimuth += baseValue;
@@ -163,13 +163,58 @@ function* expandBraces(str) {
  */
 function getZigZagMatrix(n) {
     var result = [];
-    for(var i =0;i<n;i++){
-        var row = [];
-        for(var j =0;j<n;j++){
-            row.push(i*n+j);
-        }
-        result.push(row);
+    for (var i = 0; i < n; i++) {
+        result[i] = [];
     }
+    var flagAverage = false;
+    var number = 0;
+    result[0][0] = number++;
+    var i = 0, j = 1;
+    var x = -1, y = 1;
+    while (!(i === n - 1 && j === n - 1)) {
+        //debugger;
+
+        result[i][j] = number++;
+        i+=y;
+        j+=x;
+        if(j<0){
+           j++;
+           x*=-1;
+           y*=-1;
+        }
+        if(j>n-1){
+            j--;
+            x*=-1;
+            y*=-1;
+            if(flagAverage){
+                i+=2;
+            }
+            if(n%2===1&&i===-1){
+                i+=2;
+                flagAverage= true;
+            }
+
+        }
+        if(i<0){
+            i++;
+            y*=-1;
+            x*=-1;
+        }
+        if(i>n-1){
+            i--;
+            y*=-1;
+            x*=-1;
+            if(flagAverage){
+                j+=2;
+            }
+            if(n%2===0&&j===0){
+                j++;
+                flagAverage = true;
+            }
+        }
+        if(number>n*n)break;
+    }
+    result[n-1][n-1] = number++;
     return result;
 }
 
@@ -196,31 +241,31 @@ function getZigZagMatrix(n) {
  */
 function canDominoesMakeRow(dominoes) {
     var countWithoutPair = 0;
-    var allDominoesNumbers =[];
+    var allDominoesNumbers = [];
     var dominoesSameNumber = [];
-    for(var i = 0; i<dominoes.length;i++){
-        if(dominoes[i][0]===dominoes[i][1]){
+    for (var i = 0; i < dominoes.length; i++) {
+        if (dominoes[i][0] === dominoes[i][1]) {
             dominoesSameNumber.push(dominoes[i][0]);
-        }else {
+        } else {
             allDominoesNumbers.push(dominoes[i][0]);
             allDominoesNumbers.push(dominoes[i][1]);
         }
     }
-    for(var i =0; i<dominoesSameNumber.length;i++){
-        if(allDominoesNumbers.indexOf(dominoesSameNumber[i])===-1){
+    for (var i = 0; i < dominoesSameNumber.length; i++) {
+        if (allDominoesNumbers.indexOf(dominoesSameNumber[i]) === -1) {
             return false;
         }
     }
-    while(allDominoesNumbers.length>0){
+    while (allDominoesNumbers.length > 0) {
         var t = allDominoesNumbers.shift();
         var k = allDominoesNumbers.indexOf(t);
-        if(k==-1){
+        if (k == -1) {
             countWithoutPair++;
-            if(countWithoutPair>2)
+            if (countWithoutPair > 2)
                 return false;
         }
-        else{
-            allDominoesNumbers.splice(k,1);
+        else {
+            allDominoesNumbers.splice(k, 1);
         }
 
     }
@@ -250,31 +295,33 @@ function canDominoesMakeRow(dominoes) {
 function extractRanges(nums) {
     var start;
     var numStart;
-    var resultStr ='';
+    var resultStr = '';
     start = nums[0];
     numStart = 0;
     resultStr = nums[0];
-    for(var i =1;i<nums.length;i++){
-        if(start+i-numStart!==nums[i]&&i!==nums.length-1){
-            if(i-numStart===1){
-                if(resultStr!==''){
-                    resultStr+=',';
+    for (var i = 1; i < nums.length; i++) {
+        if (start + i - numStart !== nums[i] && i !== nums.length - 1) {
+            if (i - numStart === 1) {
+                if (resultStr !== '') {
+                    resultStr += ',';
                 }
-                resultStr+=nums[i];
-            }else if(i-numStart===2){
-                resultStr+=','+nums[i-1]+','+nums[i];
-            } else{
-                resultStr+='-'+nums[i-1]+','+nums[i];
+                resultStr += nums[i];
+            } else if (i - numStart === 2) {
+                resultStr += ',' + nums[i - 1] + ',' + nums[i];
+            } else {
+                resultStr += '-' + nums[i - 1] + ',' + nums[i];
             }
             start = nums[i];
             numStart = i;
         }
-        if(i===nums.length-1){
-            if(i>2&&nums[i]===nums[i-1]+1&&nums[i]===nums[i-2]+2){
-                resultStr+='-'+nums[i];
+        if (i === nums.length - 1) {
+            if (i > 1 && nums[i] === nums[i - 1] + 1 && nums[i] === nums[i - 2] + 2) {
+                resultStr += '-' + nums[i];
+            } else if (i > 1 && nums[i] === nums[i - 1] + 1 && nums[i] !== nums[i - 2] + 2) {
+                resultStr += ',' + nums[i];
             }
-            else{
-                resultStr+='-'+nums[i-1]+','+nums[i];
+            else {
+                resultStr += '-' + nums[i - 1] + ',' + nums[i];
             }
         }
     }
