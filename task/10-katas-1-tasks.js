@@ -17,8 +17,82 @@
  *  ]
  */
 function createCompassPoints() {
-    throw new Error('Not implemented');
-    var sides = ['N','E','S','W'];  // use array of cardinal directions only!
+    function elem(abbreviation, azimuth) {
+        this.abbreviation = abbreviation;
+        this.azimuth = azimuth;
+    }
+
+    var sides = ['N', 'E', 'S', 'W'];  // use array of cardinal directions only!
+    var result = [];
+    var baseValue = 11.25;
+    var currentValueAzimuth = 0;
+
+    //алгоритм автоматической генерации сложный пипец. проще так сделать
+    result.push(new elem('N', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NbE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NNE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem(' NEbN', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NEbE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('ENE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('EbN', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('E', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('EbS', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('ESE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SEbE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SEbS', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SSE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SbE', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('S', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SbW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SSW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SWbS', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('SWb', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('WSW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('WbS', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('W', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('WbN', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('WNW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NWbW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NWbN', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NNW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    result.push(new elem('NbW', currentValueAzimuth));
+    currentValueAzimuth += baseValue;
+    return result;
 }
 
 
@@ -56,7 +130,7 @@ function createCompassPoints() {
  *   'nothing to do' => 'nothing to do'
  */
 function* expandBraces(str) {
-    throw new Error('Not implemented');
+
 }
 
 
@@ -88,7 +162,15 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    throw new Error('Not implemented');
+    var result = [];
+    for(var i =0;i<n;i++){
+        var row = [];
+        for(var j =0;j<n;j++){
+            row.push(i*n+j);
+        }
+        result.push(row);
+    }
+    return result;
 }
 
 
@@ -113,7 +195,36 @@ function getZigZagMatrix(n) {
  *
  */
 function canDominoesMakeRow(dominoes) {
-    throw new Error('Not implemented');
+    var countWithoutPair = 0;
+    var allDominoesNumbers =[];
+    var dominoesSameNumber = [];
+    for(var i = 0; i<dominoes.length;i++){
+        if(dominoes[i][0]===dominoes[i][1]){
+            dominoesSameNumber.push(dominoes[i][0]);
+        }else {
+            allDominoesNumbers.push(dominoes[i][0]);
+            allDominoesNumbers.push(dominoes[i][1]);
+        }
+    }
+    for(var i =0; i<dominoesSameNumber.length;i++){
+        if(allDominoesNumbers.indexOf(dominoesSameNumber[i])===-1){
+            return false;
+        }
+    }
+    while(allDominoesNumbers.length>0){
+        var t = allDominoesNumbers.shift();
+        var k = allDominoesNumbers.indexOf(t);
+        if(k==-1){
+            countWithoutPair++;
+            if(countWithoutPair>2)
+                return false;
+        }
+        else{
+            allDominoesNumbers.splice(k,1);
+        }
+
+    }
+    return true;
 }
 
 
@@ -137,13 +248,43 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    throw new Error('Not implemented');
+    var start;
+    var numStart;
+    var resultStr ='';
+    start = nums[0];
+    numStart = 0;
+    resultStr = nums[0];
+    for(var i =1;i<nums.length;i++){
+        if(start+i-numStart!==nums[i]&&i!==nums.length-1){
+            if(i-numStart===1){
+                if(resultStr!==''){
+                    resultStr+=',';
+                }
+                resultStr+=nums[i];
+            }else if(i-numStart===2){
+                resultStr+=','+nums[i-1]+','+nums[i];
+            } else{
+                resultStr+='-'+nums[i-1]+','+nums[i];
+            }
+            start = nums[i];
+            numStart = i;
+        }
+        if(i===nums.length-1){
+            if(i>2&&nums[i]===nums[i-1]+1&&nums[i]===nums[i-2]+2){
+                resultStr+='-'+nums[i];
+            }
+            else{
+                resultStr+='-'+nums[i-1]+','+nums[i];
+            }
+        }
+    }
+    return resultStr;
 }
 
 module.exports = {
-    createCompassPoints : createCompassPoints,
-    expandBraces : expandBraces,
-    getZigZagMatrix : getZigZagMatrix,
-    canDominoesMakeRow : canDominoesMakeRow,
-    extractRanges : extractRanges
+    createCompassPoints: createCompassPoints,
+    expandBraces: expandBraces,
+    getZigZagMatrix: getZigZagMatrix,
+    canDominoesMakeRow: canDominoesMakeRow,
+    extractRanges: extractRanges
 };
