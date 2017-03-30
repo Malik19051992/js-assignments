@@ -162,6 +162,12 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
+    if(n===0){
+        return [0];
+    }
+    if(n===1){
+        return [1];
+    }
     var result = [];
     for (var i = 0; i < n; i++) {
         result[i] = [];
