@@ -166,7 +166,7 @@ function getZigZagMatrix(n) {
         return [0];
     }
     if(n===1){
-        return [1];
+        return [0];
     }
     var result = [];
     for (var i = 0; i < n; i++) {
