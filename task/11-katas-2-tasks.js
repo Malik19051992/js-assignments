@@ -153,14 +153,14 @@ function getPokerHandRank(hand) {
     function ifStraight() {
         if (getNumberOfCard(arrayOfCards[0].number) === 2 && getNumberOfCard(arrayOfCards[4].number) === 14) {
             for (var i = 1; i < 4; i++) {
-                if (getNumberOfCard(arrayOfCards[i].number) !== getNumberOfCard(arrayOfCards[i - 1].number)+1) {
+                if (getNumberOfCard(arrayOfCards[i].number) !== getNumberOfCard(arrayOfCards[i - 1].number) + 1) {
                     return false;
                 }
             }
             return true;
         } else {
             for (var i = 1; i < 5; i++) {
-                if (getNumberOfCard(arrayOfCards[i].number) !== getNumberOfCard(arrayOfCards[i - 1].number)+1) {
+                if (getNumberOfCard(arrayOfCards[i].number) !== getNumberOfCard(arrayOfCards[i - 1].number) + 1) {
                     return false;
                 }
             }
@@ -170,66 +170,70 @@ function getPokerHandRank(hand) {
 
     function isFalsh() {
         for (var i = 1; i < 5; i++) {
-            if(arrayOfCards[i].suit!==arrayOfCards[i-1].suit){
+            if (arrayOfCards[i].suit !== arrayOfCards[i - 1].suit) {
                 return false;
             }
         }
         return true;
     }
+
     function groupCards() {
-        var newArrayCards = arrayOfCards.map(function (item,i) { return item;});
+        var newArrayCards = arrayOfCards.map(function (item, i) {
+            return item;
+        });
         var resultArray = [];
 
-        while (newArrayCards.length>0){
+        while (newArrayCards.length > 0) {
             var t = newArrayCards.shift().number;
             var flag = false;
-            for(var i =0;i<resultArray.length;i++){
-                if(resultArray[i][0]===t){
+            for (var i = 0; i < resultArray.length; i++) {
+                if (resultArray[i][0] === t) {
                     resultArray[i][1]++;
                     flag = true;
                 }
             }
-            if(!flag){
-                var newValue =[];
-                newValue[0]=t;
-                newValue[1]=1;
+            if (!flag) {
+                var newValue = [];
+                newValue[0] = t;
+                newValue[1] = 1;
                 resultArray.push(newValue);
             }
         }
         return resultArray;
     }
+
     var groupedCards = groupCards();
 
-    if(ifStraight()&&isFalsh()){
+    if (ifStraight() && isFalsh()) {
         return PokerRank.StraightFlush;
     }
 
-    if(groupedCards[0][1]===4||groupedCards[1][1]===4){
+    if (groupedCards[0][1] === 4 || groupedCards[1][1] === 4) {
         return PokerRank.FourOfKind;
     }
-    if((groupedCards[0][1]===2&&groupedCards[1][1]===3)||groupedCards[0][1]===3&&groupedCards[1][1]===2){
+    if ((groupedCards[0][1] === 2 && groupedCards[1][1] === 3) || groupedCards[0][1] === 3 && groupedCards[1][1] === 2) {
         return PokerRank.FullHouse;
     }
-    if(isFalsh()){
+    if (isFalsh()) {
         return PokerRank.Flush;
     }
-    if(ifStraight()){
+    if (ifStraight()) {
         return PokerRank.Straight;
     }
-    if(groupedCards[0][1]===3||groupedCards[1][1]===3){
+    if (groupedCards[0][1] === 3 || groupedCards[1][1] === 3) {
         return PokerRank.ThreeOfKind;
     }
-
-    if((groupedCards[0][1]===2&&groupedCards[1][1]===2)||groupedCards[1][1]===2&&groupedCards[2][1]===2||groupedCards[0][1]===2&&groupedCards[2][1]===2){
-        return PokerRank.TwoPairs;
-    }
-
-    if(groupedCards[0][1]===2||groupedCards[1][1]===2||groupedCards[2][1]===2||groupedCards[3][1]===2){
-        return PokerRank.OnePair;
-    }
+    if (groupedCards.length > 2)
+        if ((groupedCards[0][1] === 2 && groupedCards[1][1] === 2) || groupedCards[1][1] === 2 && groupedCards[2][1] === 2 || groupedCards[0][1] === 2 && groupedCards[2][1] === 2) {
+            return PokerRank.TwoPairs;
+        }
+    
+    if (groupedCards.length > 3)
+        if (groupedCards[0][1] === 2 || groupedCards[1][1] === 2 || groupedCards[2][1] === 2 || groupedCards[3][1] === 2) {
+            return PokerRank.OnePair;
+        }
     return PokerRank.HighCard;
 }
-
 
 
 /**
