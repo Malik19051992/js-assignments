@@ -28,7 +28,6 @@ function Rectangle(width, height) {
     this.getArea = function(){
         return this.width*this.height;
     }
-    this.getArea.enumerable = false;
 }
 
 

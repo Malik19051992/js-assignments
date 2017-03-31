@@ -100,8 +100,136 @@ const PokerRank = {
 }
 
 function getPokerHandRank(hand) {
-    throw new Error('Not implemented');
+    function card(number, suit) {
+        this.number = number;
+        this.suit = suit;
+    }
+
+    function getNumberOfCard(a) {
+        switch (a) {
+            case '2':
+                return 2;
+            case '3':
+                return 3;
+            case '4':
+                return 4;
+            case '5':
+                return 5;
+            case '6':
+                return 6;
+            case '7':
+                return 7;
+            case '8':
+                return 8;
+            case '9':
+                return 9;
+            case '10':
+                return 10;
+            case 'J':
+                return 11;
+            case 'Q':
+                return 12;
+            case 'K':
+                return 13;
+            case 'A':
+                return 14;
+        }
+    }
+
+    var arrayOfCards = [];
+    for (var i = 0; i < hand.length; i++) {
+        var t = parseInt(hand[i], 10);
+        if (isNaN(t)) {
+            t = hand[i][0];
+        }
+        arrayOfCards.push(new card(t.toString(), hand[i][hand[i].length - 1]));
+    }
+
+    arrayOfCards.sort(function (a, b) {
+        if (getNumberOfCard(a.number) > getNumberOfCard(b.number)) return 1;
+        else return -1;
+    });
+
+    function ifStraight() {
+        if (getNumberOfCard(arrayOfCards[0].number) === 2 && getNumberOfCard(arrayOfCards[4].number) === 14) {
+            for (var i = 1; i < 4; i++) {
+                if (getNumberOfCard(arrayOfCards[i].number) !== getNumberOfCard(arrayOfCards[i - 1].number)+1) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            for (var i = 1; i < 5; i++) {
+                if (getNumberOfCard(arrayOfCards[i].number) !== getNumberOfCard(arrayOfCards[i - 1].number)+1) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    function isFalsh() {
+        for (var i = 1; i < 5; i++) {
+            if(arrayOfCards[i].suit!==arrayOfCards[i-1].suit){
+                return false;
+            }
+        }
+        return true;
+    }
+    function groupCards() {
+        var newArrayCards = arrayOfCards.map(function (item,i) { return item;});
+        var resultArray = [];
+
+        while (newArrayCards.length>0){
+            var t = newArrayCards.shift().number;
+            var flag = false;
+            for(var i =0;i<resultArray.length;i++){
+                if(resultArray[i][0]===t){
+                    resultArray[i][1]++;
+                    flag = true;
+                }
+            }
+            if(!flag){
+                var newValue =[];
+                newValue[0]=t;
+                newValue[1]=1;
+                resultArray.push(newValue);
+            }
+        }
+        return resultArray;
+    }
+    var groupedCards = groupCards();
+
+    if(ifStraight()&&isFalsh()){
+        return 'StraightFlush';
+    }
+
+    if(groupedCards[0][1]===4||groupedCards[1][1]===4){
+        return 'FourOfKind';
+    }
+    if((groupedCards[0][1]===2&&groupedCards[1][1]===3)||groupedCards[0][1]===3&&groupedCards[1][1]===2){
+        return 'FullHouse';
+    }
+    if(isFalsh()){
+        return 'Flush';
+    }
+    if(ifStraight()){
+        return 'Straight';
+    }
+    if(groupedCards[0][1]===3||groupedCards[1][1]===3){
+        return 'ThreeOfKind';
+    }
+
+    if((groupedCards[0][1]===2&&groupedCards[1][1]===2)||groupedCards[1][1]===2&&groupedCards[2][1]===2||groupedCards[0][1]===2&&groupedCards[2][1]===2){
+        return 'TwoPairs';
+    }
+
+    if(groupedCards[0][1]===2||groupedCards[1][1]===2||groupedCards[2][1]===2||groupedCards[3][1]===2){
+        return 'OnePair';
+    }
+    return 'HighCard';
 }
+
 
 
 /**
@@ -110,10 +238,10 @@ function getPokerHandRank(hand) {
  * The task is to break the figure in the rectangles it is made of.
  *
  * NOTE: The order of rectanles does not matter.
- * 
+ *
  * @param {string} figure
  * @return {Iterable.<string>} decomposition to basic parts
- * 
+ *
  * @example
  *
  *    '+------------+\n'+
@@ -135,12 +263,12 @@ function getPokerHandRank(hand) {
  *    '+-------------+\n'
  */
 function* getFigureRectangles(figure) {
-   throw new Error('Not implemented');
+    throw new Error('Not implemented');
 }
 
 
 module.exports = {
-    parseBankAccount : parseBankAccount,
+    parseBankAccount: parseBankAccount,
     wrapText: wrapText,
     PokerRank: PokerRank,
     getPokerHandRank: getPokerHandRank,
