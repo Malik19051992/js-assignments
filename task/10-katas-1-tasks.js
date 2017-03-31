@@ -187,6 +187,7 @@ function getZigZagMatrix(n) {
            j++;
            x*=-1;
            y*=-1;
+
         }
         if(j>n-1){
             j--;
@@ -195,16 +196,17 @@ function getZigZagMatrix(n) {
             if(flagAverage){
                 i+=2;
             }
-            if(n%2===1&&i===-1){
+            if(n%2===1&&i===-1&&j===n-1&&!flagAverage){
+
                 i+=2;
                 flagAverage= true;
             }
-
         }
         if(i<0){
             i++;
             y*=-1;
             x*=-1;
+
         }
         if(i>n-1){
             i--;
@@ -213,10 +215,13 @@ function getZigZagMatrix(n) {
             if(flagAverage){
                 j+=2;
             }
-            if(n%2===0&&j===0){
+            if(n%2===0&&j===0&&i===n-1&&!flagAverage){
+                y*=-1;
+                x*=-1;
                 j++;
                 flagAverage = true;
             }
+
         }
         if(number>n*n)break;
     }
