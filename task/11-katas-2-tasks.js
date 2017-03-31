@@ -33,8 +33,73 @@
  *   '|_||_  _||_| _||_| _||_| _|\n',
  *
  */
+
 function parseBankAccount(bankAccount) {
-    throw new Error('Not implemented');
+    function getNumber(arr) {
+        if (arr[0][1] === ' ') {
+            if (arr[1][1] === '_') {
+                return 4;
+            } else {
+                return 1;
+            }
+        } else {
+            if (arr[1][0] === ' ') {
+                if (arr[2][0] === '|') {
+                    return 2;
+                } else if (arr[1][1] === '_') {
+                    return 3
+                } else {
+                    return 7;
+                }
+            }else{
+                if(arr[1][2] === ' '){
+                    if(arr[2][0] === ' '){
+                        return 5;
+                    }
+                    else {
+                        return 6;
+                    }
+                }else{
+                    if(arr[2][0]===' '){
+                        return 9;
+                    }
+                    else if(arr[1][1]==='_'){
+                        return 8;
+                    } else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+
+    }
+    var arrStrs = bankAccount.split('\n');
+    var resultStr ='';
+    for(var i=0;i<arrStrs[0].length;i++){
+        var oneNumber = [];
+        //if(bankAccount[i]===' '&&bankAccount[i+1]!==' '&&bankAccount[i+1]!=='\n'){
+            oneNumber.push(arrStrs[0].slice(i,i+3));
+            oneNumber.push(arrStrs[1].slice(i,i+3));
+            oneNumber.push(arrStrs[2].slice(i,i+3));
+            i+=2;
+        /*} else if(bankAccount[i]===' '&&bankAccount[i+1]!=='\n'){
+            oneNumber.push(arrStrs[0][i]);
+            oneNumber.push(arrStrs[1][i]);
+            oneNumber.push(arrStrs[2][i]);
+        } else if(bankAccount[i]===' '&&bankAccount[i+1]===' '&&bankAccount[i+2]!==' '){
+            oneNumber.push(arrStrs[0][i]);
+            oneNumber.push(arrStrs[1][i]);
+            oneNumber.push(arrStrs[2][i]);
+        }else{
+            oneNumber.push(arrStrs[0].slice(i,i+3));
+            oneNumber.push(arrStrs[1].slice(i,i+3));
+            oneNumber.push(arrStrs[2].slice(i,i+3));
+            i+=2;
+        }*/
+        resultStr+=getNumber(oneNumber);
+    }
+    return resultStr;
 }
 
 
@@ -63,7 +128,23 @@ function parseBankAccount(bankAccount) {
  *                                                                                                'characters.'
  */
 function* wrapText(text, columns) {
-    throw new Error('Not implemented');
+    var arrayWords = text.split(' ');
+    var arrayColumns =[];
+    var row ='';
+    for(var i =0;i<arrayWords.length;i++){
+        if(row.length+1+arrayWords[i].length<=columns){
+            row+= row ===''?arrayWords[i]:' '+arrayWords[i];
+        }else{
+            arrayColumns.push(row);
+            row = arrayWords[i];
+        }
+    }
+    arrayColumns.push(row);
+
+    for(var i =0;i<arrayColumns.length;i++){
+        yield arrayColumns[i];
+    }
+    return
 }
 
 
@@ -221,7 +302,7 @@ function getPokerHandRank(hand) {
         return PokerRank.Straight;
     }
     if (groupedCards.length > 2)
-        if (groupedCards[0][1] === 3 || groupedCards[1][1] === 3|| groupedCards[2][1] === 3) {
+        if (groupedCards[0][1] === 3 || groupedCards[1][1] === 3 || groupedCards[2][1] === 3) {
             return PokerRank.ThreeOfKind;
         }
     if (groupedCards.length > 2)
