@@ -356,8 +356,8 @@ function* getFigureRectangles(figure) {
         var temp;
         for (var j = 0; j < arrayOfRow[i].length; j++) {
             if (arrayOfRow[i][j] === '+') {
-                if (i < arrayOfRow.length - 1) {
-                    if (arrayOfRow[i + 1][j] === '|') {
+                if (i < arrayOfRow.length ) {
+                    if (arrayOfRow[i + 1][j] === '|'||arrayOfRow[i + 1][j] === '+') {
                         if (!noPair) {
                             temp = [i, j];
                             noPair = true;
