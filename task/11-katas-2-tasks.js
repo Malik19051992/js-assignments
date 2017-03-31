@@ -201,33 +201,33 @@ function getPokerHandRank(hand) {
     var groupedCards = groupCards();
 
     if(ifStraight()&&isFalsh()){
-        return 'PokerRank.StraightFlush';
+        return PokerRank.StraightFlush;
     }
 
     if(groupedCards[0][1]===4||groupedCards[1][1]===4){
-        return 'PokerRank.FourOfKind';
+        return PokerRank.FourOfKind;
     }
     if((groupedCards[0][1]===2&&groupedCards[1][1]===3)||groupedCards[0][1]===3&&groupedCards[1][1]===2){
-        return 'PokerRank.FullHouse';
+        return PokerRank.FullHouse;
     }
     if(isFalsh()){
-        return 'PokerRank.Flush';
+        return PokerRank.Flush;
     }
     if(ifStraight()){
-        return 'PokerRank.Straight';
+        return PokerRank.Straight;
     }
     if(groupedCards[0][1]===3||groupedCards[1][1]===3){
-        return 'PokerRank.ThreeOfKind';
+        return PokerRank.ThreeOfKind;
     }
 
     if((groupedCards[0][1]===2&&groupedCards[1][1]===2)||groupedCards[1][1]===2&&groupedCards[2][1]===2||groupedCards[0][1]===2&&groupedCards[2][1]===2){
-        return 'PokerRank.TwoPairs';
+        return PokerRank.TwoPairs;
     }
 
     if(groupedCards[0][1]===2||groupedCards[1][1]===2||groupedCards[2][1]===2||groupedCards[3][1]===2){
-        return 'PokerRank.OnePair';
+        return PokerRank.OnePair;
     }
-    return 'PokerRank.HighCard';
+    return PokerRank.HighCard;
 }
 
 
