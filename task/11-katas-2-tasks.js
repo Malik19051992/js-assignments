@@ -375,7 +375,7 @@ function* getFigureRectangles(figure) {
                                     break;
                                 }
                             }
-                            if (j < arrayOfRow[i].length && arrayOfRow[i][j + 1] === '-') {
+                            if (j < arrayOfRow[i].length &&( arrayOfRow[i][j + 1] === '-'|| arrayOfRow[i][j + 1] === '+')) {
                                 temp = [i, j];
                                 noPair = true;
                             }
