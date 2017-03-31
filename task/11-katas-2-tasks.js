@@ -220,14 +220,15 @@ function getPokerHandRank(hand) {
     if (ifStraight()) {
         return PokerRank.Straight;
     }
-    if (groupedCards[0][1] === 3 || groupedCards[1][1] === 3) {
-        return PokerRank.ThreeOfKind;
-    }
+    if (groupedCards.length > 2)
+        if (groupedCards[0][1] === 3 || groupedCards[1][1] === 3|| groupedCards[2][1] === 3) {
+            return PokerRank.ThreeOfKind;
+        }
     if (groupedCards.length > 2)
         if ((groupedCards[0][1] === 2 && groupedCards[1][1] === 2) || groupedCards[1][1] === 2 && groupedCards[2][1] === 2 || groupedCards[0][1] === 2 && groupedCards[2][1] === 2) {
             return PokerRank.TwoPairs;
         }
-    
+
     if (groupedCards.length > 3)
         if (groupedCards[0][1] === 2 || groupedCards[1][1] === 2 || groupedCards[2][1] === 2 || groupedCards[3][1] === 2) {
             return PokerRank.OnePair;
