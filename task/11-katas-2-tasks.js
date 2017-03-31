@@ -364,18 +364,18 @@ function* getFigureRectangles(figure) {
                         } else {
                             for (var k = i + 1; k < arrayOfRow.length; k++) {
                                 if (arrayOfRow[k][j] === '+') {
-                                    var oneFigure = [[],[]];
-                                    oneFigure[0][0]= temp[0];
-                                    oneFigure[0][1]= temp[1];
-                                    oneFigure[1][0]= k;
-                                    oneFigure[1][1]= j;
+                                    var oneFigure = [[], []];
+                                    oneFigure[0][0] = temp[0];
+                                    oneFigure[0][1] = temp[1];
+                                    oneFigure[1][0] = k;
+                                    oneFigure[1][1] = j;
                                     arrayOfFigures.push(oneFigure);
                                     temp = [];
                                     noPair = false;
                                     break;
                                 }
                             }
-                            if(j<arrayOfRow[i].length&&arrayOfRow[i][j+1]==='-'){
+                            if (j < arrayOfRow[i].length && arrayOfRow[i][j + 1] === '-') {
                                 temp = [i, j];
                                 noPair = true;
                             }
@@ -385,27 +385,27 @@ function* getFigureRectangles(figure) {
             }
         }
     }
-    var resultArray =[];
-    for(var i =0;i<arrayOfFigures.length;i++){
-        var  resultRow ='';
-        for(j=arrayOfFigures[i][0][0];j<=arrayOfFigures[i][1][0] ;j++){
-            for(k=arrayOfFigures[i][0][1];k<=arrayOfFigures[i][1][1] ;k++){
-                if((j===arrayOfFigures[i][0][0]||j===arrayOfFigures[i][1][0])&&(k===arrayOfFigures[i][0][1]||k===arrayOfFigures[i][1][1])){
-                    resultRow+='+';
-                }else if(j===arrayOfFigures[i][0][0]||j===arrayOfFigures[i][1][0]){
-                    resultRow+='-';
-                }else if(k===arrayOfFigures[i][0][1]||k===arrayOfFigures[i][1][1]){
-                    resultRow+='|';
+    var resultArray = [];
+    for (var i = 0; i < arrayOfFigures.length; i++) {
+        var resultRow = '';
+        for (j = arrayOfFigures[i][0][0]; j <= arrayOfFigures[i][1][0]; j++) {
+            for (k = arrayOfFigures[i][0][1]; k <= arrayOfFigures[i][1][1]; k++) {
+                if ((j === arrayOfFigures[i][0][0] || j === arrayOfFigures[i][1][0]) && (k === arrayOfFigures[i][0][1] || k === arrayOfFigures[i][1][1])) {
+                    resultRow += '+';
+                } else if (j === arrayOfFigures[i][0][0] || j === arrayOfFigures[i][1][0]) {
+                    resultRow += '-';
+                } else if (k === arrayOfFigures[i][0][1] || k === arrayOfFigures[i][1][1]) {
+                    resultRow += '|';
                 }
-                else{
-                    resultRow+=' ';
+                else {
+                    resultRow += ' ';
                 }
             }
-            resultRow+='\n';
+            resultRow += '\n';
         }
         resultArray.push(resultRow);
     }
-    for(var i =0;i<resultArray.length;i++){
+    for (var i = 0; i < resultArray.length; i++) {
         yield resultArray[i];
     }
     return
