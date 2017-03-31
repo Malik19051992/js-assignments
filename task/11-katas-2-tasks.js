@@ -51,22 +51,21 @@ function parseBankAccount(bankAccount) {
                 } else {
                     return 7;
                 }
-            }else{
-                if(arr[1][2] === ' '){
-                    if(arr[2][0] === ' '){
+            } else {
+                if (arr[1][2] === ' ') {
+                    if (arr[2][0] === ' ') {
                         return 5;
                     }
                     else {
                         return 6;
                     }
-                }else{
-                    if(arr[2][0]===' '){
+                } else {
+                    if (arr[2][0] === ' ') {
                         return 9;
                     }
-                    else if(arr[1][1]==='_'){
+                    else if (arr[1][1] === '_') {
                         return 8;
-                    } else
-                    {
+                    } else {
                         return 0;
                     }
                 }
@@ -74,30 +73,31 @@ function parseBankAccount(bankAccount) {
         }
 
     }
+
     var arrStrs = bankAccount.split('\n');
-    var resultStr ='';
-    for(var i=0;i<arrStrs[0].length;i++){
+    var resultStr = '';
+    for (var i = 0; i < arrStrs[0].length; i++) {
         var oneNumber = [];
         //if(bankAccount[i]===' '&&bankAccount[i+1]!==' '&&bankAccount[i+1]!=='\n'){
-            oneNumber.push(arrStrs[0].slice(i,i+3));
-            oneNumber.push(arrStrs[1].slice(i,i+3));
-            oneNumber.push(arrStrs[2].slice(i,i+3));
-            i+=2;
+        oneNumber.push(arrStrs[0].slice(i, i + 3));
+        oneNumber.push(arrStrs[1].slice(i, i + 3));
+        oneNumber.push(arrStrs[2].slice(i, i + 3));
+        i += 2;
         /*} else if(bankAccount[i]===' '&&bankAccount[i+1]!=='\n'){
-            oneNumber.push(arrStrs[0][i]);
-            oneNumber.push(arrStrs[1][i]);
-            oneNumber.push(arrStrs[2][i]);
-        } else if(bankAccount[i]===' '&&bankAccount[i+1]===' '&&bankAccount[i+2]!==' '){
-            oneNumber.push(arrStrs[0][i]);
-            oneNumber.push(arrStrs[1][i]);
-            oneNumber.push(arrStrs[2][i]);
-        }else{
-            oneNumber.push(arrStrs[0].slice(i,i+3));
-            oneNumber.push(arrStrs[1].slice(i,i+3));
-            oneNumber.push(arrStrs[2].slice(i,i+3));
-            i+=2;
-        }*/
-        resultStr+=getNumber(oneNumber);
+         oneNumber.push(arrStrs[0][i]);
+         oneNumber.push(arrStrs[1][i]);
+         oneNumber.push(arrStrs[2][i]);
+         } else if(bankAccount[i]===' '&&bankAccount[i+1]===' '&&bankAccount[i+2]!==' '){
+         oneNumber.push(arrStrs[0][i]);
+         oneNumber.push(arrStrs[1][i]);
+         oneNumber.push(arrStrs[2][i]);
+         }else{
+         oneNumber.push(arrStrs[0].slice(i,i+3));
+         oneNumber.push(arrStrs[1].slice(i,i+3));
+         oneNumber.push(arrStrs[2].slice(i,i+3));
+         i+=2;
+         }*/
+        resultStr += getNumber(oneNumber);
     }
     return resultStr;
 }
@@ -129,19 +129,19 @@ function parseBankAccount(bankAccount) {
  */
 function* wrapText(text, columns) {
     var arrayWords = text.split(' ');
-    var arrayColumns =[];
-    var row ='';
-    for(var i =0;i<arrayWords.length;i++){
-        if(row.length+1+arrayWords[i].length<=columns){
-            row+= row ===''?arrayWords[i]:' '+arrayWords[i];
-        }else{
+    var arrayColumns = [];
+    var row = '';
+    for (var i = 0; i < arrayWords.length; i++) {
+        if (row.length + 1 + arrayWords[i].length <= columns) {
+            row += row === '' ? arrayWords[i] : ' ' + arrayWords[i];
+        } else {
             arrayColumns.push(row);
             row = arrayWords[i];
         }
     }
     arrayColumns.push(row);
 
-    for(var i =0;i<arrayColumns.length;i++){
+    for (var i = 0; i < arrayColumns.length; i++) {
         yield arrayColumns[i];
     }
     return
@@ -349,7 +349,66 @@ function getPokerHandRank(hand) {
  *    '+-------------+\n'
  */
 function* getFigureRectangles(figure) {
-    throw new Error('Not implemented');
+    var arrayOfRow = figure.split('\n');
+    var arrayOfFigures = [];
+    for (var i = 0; i < arrayOfRow.length; i++) {
+        var noPair = false;
+        var temp;
+        for (var j = 0; j < arrayOfRow[i].length; j++) {
+            if (arrayOfRow[i][j] === '+') {
+                if (i < arrayOfRow.length - 1) {
+                    if (arrayOfRow[i + 1][j] === '|') {
+                        if (!noPair) {
+                            temp = [i, j];
+                            noPair = true;
+                        } else {
+                            for (var k = i + 1; k < arrayOfRow.length; k++) {
+                                if (arrayOfRow[k][j] === '+') {
+                                    var oneFigure = [[],[]];
+                                    oneFigure[0][0]= temp[0];
+                                    oneFigure[0][1]= temp[1];
+                                    oneFigure[1][0]= k;
+                                    oneFigure[1][1]= j;
+                                    arrayOfFigures.push(oneFigure);
+                                    temp = [];
+                                    noPair = false;
+                                    break;
+                                }
+                            }
+                            if(j<arrayOfRow[i].length&&arrayOfRow[i][j+1]==='-'){
+                                temp = [i, j];
+                                noPair = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    var resultArray =[];
+    for(var i =0;i<arrayOfFigures.length;i++){
+        var  resultRow ='';
+        for(j=arrayOfFigures[i][0][0];j<=arrayOfFigures[i][1][0] ;j++){
+            for(k=arrayOfFigures[i][0][1];k<=arrayOfFigures[i][1][1] ;k++){
+                if((j===arrayOfFigures[i][0][0]||j===arrayOfFigures[i][1][0])&&(k===arrayOfFigures[i][0][1]||k===arrayOfFigures[i][1][1])){
+                    resultRow+='+';
+                }else if(j===arrayOfFigures[i][0][0]||j===arrayOfFigures[i][1][0]){
+                    resultRow+='-';
+                }else if(k===arrayOfFigures[i][0][1]||k===arrayOfFigures[i][1][1]){
+                    resultRow+='|';
+                }
+                else{
+                    resultRow+=' ';
+                }
+            }
+            resultRow+='\n';
+        }
+        resultArray.push(resultRow);
+    }
+    for(var i =0;i<resultArray.length;i++){
+        yield resultArray[i];
+    }
+    return
 }
 
 
