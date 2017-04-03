@@ -25,8 +25,8 @@
 function Rectangle(width, height) {
     this.width = width;
     this.height = height;
-    this.getArea = function(){
-        return this.width*this.height;
+    this.getArea = function () {
+        return this.width * this.height;
     }
 }
 
@@ -114,98 +114,117 @@ function fromJSON(proto, json) {
 
 const cssSelectorBuilder = {
 
-    element: function(value) {
+    element: function (value) {
+
         var o = Object.assign({}, this);
+        if(o.hasOwnProperty('elem')){
+            throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+        }
+        if(o.hasOwnProperty('idValue')||o.hasOwnProperty('classes')||o.hasOwnProperty('attributties')||o.hasOwnProperty('pseudoClasses')||o.hasOwnProperty('pseudoElements')){
+            throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+        }
         o.elem = value;
         return o;
     },
 
-    id: function(value) {
+    id: function (value) {
         var o = Object.assign({}, this);
+        if(o.hasOwnProperty('idValue')){
+            throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+        }
+        if(o.hasOwnProperty('classes')||o.hasOwnProperty('attributties')||o.hasOwnProperty('pseudoClasses')||o.hasOwnProperty('pseudoElements')){
+            throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+        }
         o.idValue = value;
         return o;
     },
 
-    class: function(value) {
+    class: function (value) {
         var o = Object.assign({}, this);
-        if(!o.hasOwnProperty('classes')){
+        if(o.hasOwnProperty('attributties')||o.hasOwnProperty('pseudoClasses')||o.hasOwnProperty('pseudoElements')){
+            throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+        }
+        if (!o.hasOwnProperty('classes')) {
             o.classes = [];
         }
         o.classes.push(value);
         return o;
     },
 
-    attr: function(value) {
+    attr: function (value) {
         var o = Object.assign({}, this);
-        if(!o.hasOwnProperty('attributties')){
+        if(o.hasOwnProperty('pseudoClasses')||o.hasOwnProperty('pseudoElements')){
+            throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+        }
+        if (!o.hasOwnProperty('attributties')) {
             o.attributties = [];
         }
         o.attributties.push(value);
         return o;
     },
 
-    pseudoClass: function(value) {
+    pseudoClass: function (value) {
         var o = Object.assign({}, this);
-        if(!o.hasOwnProperty('pseudoClasses')){
+        if(o.hasOwnProperty('pseudoElements')){
+            throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+        }
+        if (!o.hasOwnProperty('pseudoClasses')) {
             o.pseudoClasses = [];
         }
         o.pseudoClasses.push(value);
         return o;
     },
 
-    pseudoElement: function(value) {
+    pseudoElement: function (value) {
         var o = Object.assign({}, this);
-        if(!o.hasOwnProperty('pseudoElements')){
-            o.pseudoElements = [];
+        if(o.hasOwnProperty('pseudoElements')){
+            throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
         }
-        o.pseudoElements.push(value);
+        o.pseudoElements = value;
         return o;
     },
 
-    combine: function(selector1, combinator, selector2) {
+    combine: function (selector1, combinator, selector2) {
         var o = Object.assign({}, this);
-        if(!o.hasOwnProperty('combines')){
+        if (!o.hasOwnProperty('combines')) {
             o.combines = [];
         }
-        o.combines.push(selector1.stringify()+' '+combinator+' '+selector2.stringify());
+        o.combines.push(selector1.stringify() + ' ' + combinator + ' ' + selector2.stringify());
         return o;
     },
 
     stringify: function () {
         var strResult = '';
-        if(this.hasOwnProperty('elem')){
-            strResult+=this.elem;
+        if (this.hasOwnProperty('elem')) {
+            strResult += this.elem;
         }
-        if(this.hasOwnProperty('idValue')){
-            strResult+='#'+this.idValue;
+        if (this.hasOwnProperty('idValue')) {
+            strResult += '#' + this.idValue;
         }
-        if(this.hasOwnProperty('classes')){
-            for(var i =0;i<this.classes.length;i++){
-                strResult+='.'+this.classes[i];
+        if (this.hasOwnProperty('classes')) {
+            for (var i = 0; i < this.classes.length; i++) {
+                strResult += '.' + this.classes[i];
             }
 
         }
-        if(this.hasOwnProperty('attributties')){
-            for(var i =0;i<this.attributties.length;i++){
-                strResult+='['+this.attributties[i]+']';
+        if (this.hasOwnProperty('attributties')) {
+            for (var i = 0; i < this.attributties.length; i++) {
+                strResult += '[' + this.attributties[i] + ']';
             }
 
         }
-        if(this.hasOwnProperty('pseudoClasses')){
-            for(var i =0;i<this.pseudoClasses.length;i++){
-                strResult+=':'+this.pseudoClasses[i];
+        if (this.hasOwnProperty('pseudoClasses')) {
+            for (var i = 0; i < this.pseudoClasses.length; i++) {
+                strResult += ':' + this.pseudoClasses[i];
             }
 
         }
-        if(this.hasOwnProperty('pseudoElements')){
-            for(var i =0;i<this.pseudoElements.length;i++){
-                strResult+='::'+this.pseudoElements[i];
-            }
-
+        if (this.hasOwnProperty('pseudoElements')) {
+                strResult += '::' + this.pseudoElements;
         }
-        if(this.hasOwnProperty('combines')){
-            for(var i =0;i<this.combines.length;i++){
-                strResult+=this.combines[i];
+        if (this.hasOwnProperty('combines')) {
+            for (var i = 0; i < this.combines.length; i++) {
+                strResult += this.combines[i];
             }
 
         }
