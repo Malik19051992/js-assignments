@@ -40,9 +40,9 @@ function findElement(arr, value) {
 function generateOdds(len) {
     var array = new Array(len);
     (function next(index) {
-        array[index] = index*2+1;
-        if(index<len-1){
-            next(index+1);
+        array[index] = index * 2 + 1;
+        if (index < len - 1) {
+            next(index + 1);
         }
     })(0);
     return array;
@@ -258,12 +258,14 @@ function toArrayOfSquares(arr) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] => [ 1, 3, 6, 10, 15, 21, 28, 36, 45, 55 ]
  */
 function getMovingSum(arr) {
-    return arr.map(function (item, i, array) {
-        var summ = 0;
-        for (var j = 0; j <= i; j++) {
-            summ += array[j];
-        }
-        return summ;
+    return arr.map(function (item, i) {
+        return arr.reduce(function (sum, current, index) {
+            if (index <= i) {
+                return sum + current;
+            } else {
+                return sum;
+            }
+        });
     })
 }
 
@@ -279,13 +281,9 @@ function getMovingSum(arr) {
  * [ "a" ] => []
  */
 function getSecondItems(arr) {
-    var resultArray = [];
-    for (var i = 0; i < arr.length; i++) {
-        if (i % 2 == 1) {
-            resultArray.push(arr[i]);
-        }
-    }
-    return resultArray;
+    return arr.filter(function (item, index) {
+        return index % 2;
+    });
 }
 
 
@@ -597,13 +595,9 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-    var result = [];
-    for (var i = 0; i < arr.length; i++) {
-        if (result.indexOf(arr[i]) == -1) {
-            result.push(arr[i]);
-        }
-    }
-    return result;
+    arr.filter(function (item,index) {
+        return arr.indexOf(item)===index;
+    });
 }
 
 /**
