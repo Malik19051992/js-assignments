@@ -56,7 +56,7 @@ function* getPermutations(chars) {
         else{
             for(var i=0;i<str.length;i++){
                 var char = str[i];
-                var arrayWords = getAllWords(str.splice(i,1));
+                var arrayWords = getAllWords(str.slice(0,i)+str.slice(i+1));
                 for(var j=0;j<arrayWords;j++){
                     result.push(char+arrayWords[i]);
                 }
