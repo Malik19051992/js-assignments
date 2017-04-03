@@ -48,7 +48,10 @@ function* getPermutations(chars) {
 
     function getAllWords(str){
         var result = [];
-        if(str.length==2){
+        if(str.length==1){
+            result.push(str);
+            return result;
+        }else if(str.length==2){
             result.push(str[0]+str[1]);
             result.push(str[1]+str[0]);
             return result;
@@ -56,9 +59,9 @@ function* getPermutations(chars) {
         else{
             for(var i=0;i<str.length;i++){
                 var char = str[i];
-                var arrayWords = getAllWords(str.slice(0,i)+str.slice(i+1));
-                for(var j=0;j<arrayWords;j++){
-                    result.push(char+arrayWords[i]);
+                var arrayWords = getAllWords(str.slice(0,i)+(i+1<str.length? str.slice(i+1):''));
+                for(var j=0;j<arrayWords.length;j++){
+                    result.push(char+arrayWords[j]);
                 }
             }
             return result;
