@@ -46,6 +46,31 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
  */
 function* getPermutations(chars) {
 
+    function getAllWords(str){
+        var result = [];
+        if(str.length==2){
+            result.push(str[0]+str[1]);
+            result.push(str[1]+str[0]);
+            return result;
+        }
+        else{
+            for(var i=0;i<str.length;i++){
+                var char = str[i];
+                var arrayWords = getAllWords(str.splice(i,1));
+                for(var j=0;j<arrayWords;j++){
+                    result.push(char+arrayWords[i]);
+                }
+            }
+            return result;
+        }
+    }
+
+    var arr = getAllWords(chars);
+    for(var i =0;i<arr.length;i++){
+        yield arr[i];
+    }
+    return;
+
 }
 
 
