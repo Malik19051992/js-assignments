@@ -165,9 +165,9 @@ const cssSelectorBuilder = {
     combine: function(selector1, combinator, selector2) {
         var o = Object.assign({}, this);
         if(!o.hasOwnProperty('combines')){
-            o.pseudoElements = [];
+            o.combines = [];
         }
-        o.pseudoElements.push(selector1.stringify()+' '+combinator+' '+selector2.stringify());
+        o.combines.push(selector1.stringify()+' '+combinator+' '+selector2.stringify());
         return o;
     },
 
@@ -200,6 +200,12 @@ const cssSelectorBuilder = {
         if(this.hasOwnProperty('pseudoElements')){
             for(var i =0;i<this.pseudoElements.length;i++){
                 strResult+='::'+this.pseudoElements[i];
+            }
+
+        }
+        if(this.hasOwnProperty('combines')){
+            for(var i =0;i<this.combines.length;i++){
+                strResult+=this.combines[i];
             }
 
         }
