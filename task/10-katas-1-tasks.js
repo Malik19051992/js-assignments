@@ -130,55 +130,56 @@ function createCompassPoints() {
  *   'nothing to do' => 'nothing to do'
  */
 function* expandBraces(str) {
-    function myBuilder(start,variants,end) {
+    function myBuilder(start, variants, end) {
         this.start = start;
         this.end = end;
         this.variants = variants;
 
         this.getAllVariants = function () {
-            var strs =[];
-            for(var i=0;i<this.variants.length;i++){
-                strs.push(this.start+this.variants[i]+this.end);
+            var strs = [];
+            for (var i = 0; i < this.variants.length; i++) {
+                strs.push(this.start + this.variants[i] + this.end);
             }
             return strs;
         }
     }
-    var resultStrs =[];
+
+    var resultStrs = [];
     var variantsToDo = [];
     variantsToDo.push(str);
-    var j =0;
-    while(variantsToDo.length>0){
+    var j = 0;
+    while (variantsToDo.length > 0) {
         var temp = variantsToDo.shift();
         var endVariation = temp.indexOf('}');
         var startVariation = endVariation;
-        while(true){
-            if(temp[startVariation]==='{'){
+        while (true) {
+            if (temp[startVariation] === '{') {
                 break;
             }
             startVariation--;
         }
-        var allStrs = new myBuilder(temp.slice(0,startVariation),temp.slice(startVariation+1,endVariation).split(','),temp.slice(endVariation+1)).getAllVariants();
+        var allStrs = new myBuilder(temp.slice(0, startVariation), temp.slice(startVariation + 1, endVariation).split(','), temp.slice(endVariation + 1)).getAllVariants();
         console.log(allStrs);
-        for(var i = 0; i<allStrs.length;i++){
-            if(allStrs[i].indexOf('{')!==-1){
+        for (var i = 0; i < allStrs.length; i++) {
+            if (allStrs[i].indexOf('{') !== -1) {
                 variantsToDo.push(allStrs[i]);
             }
-            else{
+            else {
                 resultStrs.push(allStrs[i]);
             }
         }
     }
-    var i =0;
-    while(i<resultStrs.length){
-        var t = resultStrs.indexOf(resultStrs[i],i+1);
-        if(t!=-1) {
-            resultStrs.splice(t,1);
-        }else{
+    var i = 0;
+    while (i < resultStrs.length) {
+        var t = resultStrs.indexOf(resultStrs[i], i + 1);
+        if (t != -1) {
+            resultStrs.splice(t, 1);
+        } else {
             i++;
         }
     }
 
-    for(var i = 0; i<resultStrs.length;i++){
+    for (var i = 0; i < resultStrs.length; i++) {
         yield resultStrs[i];
     }
     return;
@@ -213,10 +214,10 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    if(n===0){
+    if (n === 0) {
         return [0];
     }
-    if(n===1){
+    if (n === 1) {
         return [[0]];
     }
     var result = [];
@@ -232,51 +233,51 @@ function getZigZagMatrix(n) {
         //debugger;
 
         result[i][j] = number++;
-        i+=y;
-        j+=x;
-        if(j<0){
-           j++;
-           x*=-1;
-           y*=-1;
+        i += y;
+        j += x;
+        if (j < 0) {
+            j++;
+            x *= -1;
+            y *= -1;
 
         }
-        if(j>n-1){
+        if (j > n - 1) {
             j--;
-            x*=-1;
-            y*=-1;
-            if(flagAverage){
-                i+=2;
+            x *= -1;
+            y *= -1;
+            if (flagAverage) {
+                i += 2;
             }
-            if(n%2===1&&i===-1&&j===n-1&&!flagAverage){
+            if (n % 2 === 1 && i === -1 && j === n - 1 && !flagAverage) {
 
-                i+=2;
-                flagAverage= true;
+                i += 2;
+                flagAverage = true;
             }
         }
-        if(i<0){
+        if (i < 0) {
             i++;
-            y*=-1;
-            x*=-1;
+            y *= -1;
+            x *= -1;
 
         }
-        if(i>n-1){
+        if (i > n - 1) {
             i--;
-            y*=-1;
-            x*=-1;
-            if(flagAverage){
-                j+=2;
+            y *= -1;
+            x *= -1;
+            if (flagAverage) {
+                j += 2;
             }
-            if(n%2===0&&j===0&&i===n-1&&!flagAverage){
-                y*=-1;
-                x*=-1;
+            if (n % 2 === 0 && j === 0 && i === n - 1 && !flagAverage) {
+                y *= -1;
+                x *= -1;
                 j++;
                 flagAverage = true;
             }
 
         }
-        if(number>n*n)break;
+        if (number > n * n)break;
     }
-    result[n-1][n-1] = number++;
+    result[n - 1][n - 1] = number++;
     return result;
 }
 

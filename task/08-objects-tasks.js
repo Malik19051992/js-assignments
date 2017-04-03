@@ -25,9 +25,10 @@
 function Rectangle(width, height) {
     this.width = width;
     this.height = height;
+    this.getArea = function () {
+        return this.width * this.height;
+    }
 }
-Object.defineProperty(Rectangle, "getArea", { get: function () { return this.width * this.height; } });
-
 
 
 
