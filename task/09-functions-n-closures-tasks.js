@@ -164,26 +164,16 @@ function retry(func, attempts) {
 function logger(func, logFunc) {
     return function () {
         var resultStr = func.name + '(';
-        var array = Array.prototype.slice.call(arguments, 0);
-        resultStr += array;
-        /*if (array.length === 1)
-            resultStr += array[0];
-        else {
-            resultStr+='['
-            for (var i = 0; i < array.length; i++) {
-                if (typeof array[i] == 'string') {
-                    resultStr += '"' + array[0] + '"';
-                }
-                else {
-                    resultStr += array[0];
-                }
-            }
-        }
-        */
-        resultStr += ')';
+        //var array = Array.prototype.slice.call(arguments, 0);
+        resultStr += arguments+')';
+
+
         logFunc(resultStr + ' starts\n');
-        var result = func.apply({}, array);
-        logFunc(resultStr + ' ends\n');
+        var result = func.apply({}, arguments);
+        (function (resultStr) {
+            setTimeout(logFunc(resultStr + ' ends\n'),0);
+        })();
+
         return result
     }
 }
