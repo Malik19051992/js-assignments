@@ -144,7 +144,7 @@ function* expandBraces(str) {
         }
     }
     if (str.indexOf('{') === -1){
-        yield [str];
+        yield str;
         return;
     }
     var resultStrs = [];
