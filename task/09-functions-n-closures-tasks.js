@@ -171,9 +171,9 @@ function logger(func, logFunc) {
                 if(typeof arrayOfArguments[i] === 'string'){
                     result += (result===''? '':',')+'"'+arrayOfArguments[i]+'"';
                 }else if(arrayOfArguments[i] instanceof Array){
-                    result += (result===''? '':',')+toStringArguments(arrayOfArguments[i]);
+                    result += '['+(result===''? '':',')+toStringArguments(arrayOfArguments[i])+']';
                 }else{
-                    result += arrayOfArguments[i];
+                    result += (result===''? '':',') + arrayOfArguments[i];
                 }
             }
             return result;
