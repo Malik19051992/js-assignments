@@ -164,12 +164,23 @@ function retry(func, attempts) {
 function logger(func, logFunc) {
     return function () {
         var resultStr = func.name + '(';
-        //var array = Array.prototype.slice.call(arguments, 0);
-        resultStr += arguments+')';
-
-
+        var array = Array.prototype.slice.call(arguments, 0);
+        function toStringArguments(arrayOfArguments) {
+            var result = '';
+            for(var i = 0;i<arrayOfArguments.length;i++){
+                if(typeof arrayOfArguments[i] === 'string'){
+                    result += (result===''? '':',')+'"'+arrayOfArguments[i]+'"';
+                }else if(arrayOfArguments[i] instanceof Array){
+                    result += (result===''? '':',')+toStringArguments(arrayOfArguments[i]);
+                }else{
+                    result += arrayOfArguments[i];
+                }
+            }
+            return result;
+        }
+        resultStr += toStringArguments(array)+')';
         logFunc(resultStr + ' starts\n');
-        var result = func.apply({}, arguments);
+        var result = func.apply({}, array);
         (function (resultStr) {
             setTimeout(logFunc(resultStr + ' ends\n'),0);
         })();
