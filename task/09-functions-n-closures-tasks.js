@@ -179,9 +179,9 @@ function logger(func, logFunc) {
             return result;
         }
         resultStr += toStringArguments(array)+')';
-        logFunc(resultStr + ' starts\n');
+        logFunc(resultStr + ' starts');
         var result = func.apply({}, array);
-        logFunc(resultStr + ' ends\n');
+        logFunc(resultStr + ' ends');
         return result
     }
 }
