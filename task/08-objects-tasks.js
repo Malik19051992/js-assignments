@@ -115,34 +115,95 @@ function fromJSON(proto, json) {
 const cssSelectorBuilder = {
 
     element: function(value) {
-        throw new Error('');
+        var o = Object.assign({}, this);
+        o.elem = value;
+        return o;
     },
 
     id: function(value) {
-        throw new Error('');
+        var o = Object.assign({}, this);
+        o.idValue = value;
+        return o;
     },
 
     class: function(value) {
-        throw new Error('');
+        var o = Object.assign({}, this);
+        if(!o.hasOwnProperty('classes')){
+            o.classes = [];
+        }
+        o.classes.push(value);
+        return o;
     },
 
     attr: function(value) {
-        throw new Error('');
+        var o = Object.assign({}, this);
+        if(!o.hasOwnProperty('attributties')){
+            o.attributties = [];
+        }
+        o.attributties.push(value);
+        return o;
     },
 
     pseudoClass: function(value) {
-        throw new Error('');
+        var o = Object.assign({}, this);
+        if(!o.hasOwnProperty('pseudoClasses')){
+            o.pseudoClasses = [];
+        }
+        o.pseudoClasses.push(value);
+        return o;
     },
 
     pseudoElement: function(value) {
-        throw new Error('');
+        var o = Object.assign({}, this);
+        if(!o.hasOwnProperty('pseudoElements')){
+            o.pseudoElements = [];
+        }
+        o.pseudoElements.push(value);
+        return o;
     },
 
     combine: function(selector1, combinator, selector2) {
-        throw new Error('');
+        var o = Object.assign({}, this);
+        if(!o.hasOwnProperty('combines')){
+            o.pseudoElements = [];
+        }
+        o.pseudoElements.push(selector1.stringify()+' '+combinator+' '+selector2.stringify());
+        return o;
     },
-    stringify: function () {
 
+    stringify: function () {
+        var strResult = '';
+        if(this.hasOwnProperty('elem')){
+            strResult+=this.elem;
+        }
+        if(this.hasOwnProperty('idValue')){
+            strResult+='#'+this.idValue;
+        }
+        if(this.hasOwnProperty('classes')){
+            for(var i =0;i<this.classes.length;i++){
+                strResult+='.'+this.classes[i];
+            }
+
+        }
+        if(this.hasOwnProperty('attributties')){
+            for(var i =0;i<this.attributties.length;i++){
+                strResult+='['+this.attributties[i]+']';
+            }
+
+        }
+        if(this.hasOwnProperty('pseudoClasses')){
+            for(var i =0;i<this.pseudoClasses.length;i++){
+                strResult+=':'+this.pseudoClasses[i];
+            }
+
+        }
+        if(this.hasOwnProperty('pseudoElements')){
+            for(var i =0;i<this.pseudoElements.length;i++){
+                strResult+='::'+this.pseudoElements[i];
+            }
+
+        }
+        return strResult;
     }
 
 };
