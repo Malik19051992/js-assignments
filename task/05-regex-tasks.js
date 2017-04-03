@@ -31,7 +31,7 @@
  * @return {RegExp}
  */
 function getRegexForGuid() {
-    return new RegExp('\[A-Fa-f0-9]{8}-\[A-Fa-f0-9]{4}-\[A-Fa-f0-9]{4}-\[A-Fa-f0-9]{4}-\[A-Fa-f0-9]{12}');
+    return new RegExp('{[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}}');
 }
 
 
@@ -53,7 +53,7 @@ function getRegexForGuid() {
  *
  */
 function getRegexForPitSpot() {
-    return new RegExp('');
+    return new RegExp('^s|(pi)');
 }
 
 
