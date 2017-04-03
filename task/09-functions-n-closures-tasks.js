@@ -181,7 +181,7 @@ function logger(func, logFunc) {
         resultStr += toStringArguments(array)+')';
         logFunc(resultStr + ' starts\n');
         var result = func.apply({}, array);
-        (function (resultStr) {
+        (function (resultStr,logFunc) {
             setTimeout(logFunc(resultStr + ' ends\n'),0);
         })();
 
