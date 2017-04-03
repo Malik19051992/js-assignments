@@ -143,7 +143,9 @@ function* expandBraces(str) {
             return strs;
         }
     }
-
+    if (str.indexOf('{') === -1){
+        return [str];
+    }
     var resultStrs = [];
     var variantsToDo = [];
     variantsToDo.push(str);
@@ -159,7 +161,6 @@ function* expandBraces(str) {
             startVariation--;
         }
         var allStrs = new myBuilder(temp.slice(0, startVariation), temp.slice(startVariation + 1, endVariation).split(','), temp.slice(endVariation + 1)).getAllVariants();
-        console.log(allStrs);
         for (var i = 0; i < allStrs.length; i++) {
             if (allStrs[i].indexOf('{') !== -1) {
                 variantsToDo.push(allStrs[i]);
