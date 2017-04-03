@@ -144,7 +144,8 @@ function* expandBraces(str) {
         }
     }
     if (str.indexOf('{') === -1){
-        return [str];
+        yield [str];
+        return;
     }
     var resultStrs = [];
     var variantsToDo = [];
