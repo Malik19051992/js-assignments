@@ -130,7 +130,58 @@ function createCompassPoints() {
  *   'nothing to do' => 'nothing to do'
  */
 function* expandBraces(str) {
+    function myBuilder(start,variants,end) {
+        this.start = start;
+        this.end = end;
+        this.variants = variants;
 
+        this.getAllVariants = function () {
+            var strs =[];
+            for(var i=0;i<this.variants.length;i++){
+                strs.push(this.start+this.variants[i]+this.end);
+            }
+            return strs;
+        }
+    }
+    var resultStrs =[];
+    var variantsToDo = [];
+    variantsToDo.push(str);
+    var j =0;
+    while(variantsToDo.length>0){
+        var temp = variantsToDo.shift();
+        var endVariation = temp.indexOf('}');
+        var startVariation = endVariation;
+        while(true){
+            if(temp[startVariation]==='{'){
+                break;
+            }
+            startVariation--;
+        }
+        var allStrs = new myBuilder(temp.slice(0,startVariation),temp.slice(startVariation+1,endVariation).split(','),temp.slice(endVariation+1)).getAllVariants();
+        console.log(allStrs);
+        for(var i = 0; i<allStrs.length;i++){
+            if(allStrs[i].indexOf('{')!==-1){
+                variantsToDo.push(allStrs[i]);
+            }
+            else{
+                resultStrs.push(allStrs[i]);
+            }
+        }
+    }
+    var i =0;
+    while(i<resultStrs.length){
+        var t = resultStrs.indexOf(resultStrs[i],i+1);
+        if(t!=-1) {
+            resultStrs.splice(t,1);
+        }else{
+            i++;
+        }
+    }
+
+    for(var i = 0; i<resultStrs.length;i++){
+        yield resultStrs[i];
+    }
+    return;
 }
 
 
