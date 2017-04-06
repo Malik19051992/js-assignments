@@ -28,7 +28,60 @@
  *   'NULL'      => false 
  */
 function findStringInSnakingPuzzle(puzzle, searchStr) {
-    throw new Error('Not implemented');
+
+    return !!(function find (startPosition, toFind, puzzleToFind) {
+        if(!startPosition){
+            let i =0;
+            let j =0;
+            let firstLetter = -1;
+            while(true){
+                firstLetter = puzzleToFind[i].indexOf(toFind[0],firstLetter+1);
+                if(firstLetter===-1){
+                    i++;
+                }else{
+                    if(find([i,firstLetter],toFind.slice(1), Array.prototype.slice.call(puzzleToFind)))
+                        return true;
+                }
+                if(i===puzzleToFind.length){
+                    return false;
+                }
+            }
+        }else{
+            let findLet ='';
+            if(toFind!==''){
+                findLet = toFind[0];
+                toFind = toFind.slice(1);
+            }else{
+                return true;
+            }
+            if(startPosition[1]<puzzleToFind[startPosition[0]].length-1)
+                if(puzzleToFind[startPosition[0]][startPosition[1]+1]===findLet){
+                    const temp = Array.prototype.slice.call(puzzleToFind);
+                    temp[startPosition[0]]= temp[startPosition[0]].slice(0,startPosition[1]+1)+' '+temp[startPosition[0]].slice(startPosition[1]+2);
+                    return find([startPosition[0],startPosition[1]+1],toFind,temp)
+                }
+            if(startPosition[1]>0)
+                if(puzzleToFind[startPosition[0]][startPosition[1]-1]===findLet){
+                    const temp = Array.prototype.slice.call(puzzleToFind);
+                    temp[startPosition[0]]= temp[startPosition[0]].slice(0,startPosition[1]-1)+' '+temp[startPosition[0]].slice(startPosition[1]);
+                    return find([startPosition[0],startPosition[1]-1],toFind,temp)
+                }
+            if(startPosition[0]<puzzleToFind.length-1)
+                if(puzzleToFind[startPosition[0]+1][startPosition[1]]===findLet){
+                    const temp = Array.prototype.slice.call(puzzleToFind);
+                    temp[startPosition[0]+1]= temp[startPosition[0]+1].slice(0,startPosition[1])+' '+temp[startPosition[0]+1].slice(startPosition[1]+1);
+                    return find([startPosition[0]+1,startPosition[1]],toFind,temp)
+                }
+            if(startPosition[0]>0)
+                if(puzzleToFind[startPosition[0]-1][startPosition[1]]===findLet){
+                    const temp = Array.prototype.slice.call(puzzleToFind);
+                    temp[startPosition[0]-1]= temp[startPosition[0]-1].slice(0,startPosition[1])+' '+temp[startPosition[0]-1].slice(startPosition[1]+1);
+                    return find([startPosition[0]-1,startPosition[1]],toFind,temp)
+                }
+        }
+    })(null,searchStr,puzzle);
+
+
 }
 
 
@@ -93,7 +146,24 @@ function* getPermutations(chars) {
  *    [ 1, 6, 5, 10, 8, 7 ] => 18  (buy at 1,6,5 and sell all at 10)
  */
 function getMostProfitFromStockQuotes(quotes) {
-    throw new Error('Not implemented');
+    let summOfSale = 0;
+    let startToBuy = 0;
+    while(startToBuy<quotes.length){
+        let max = quotes[startToBuy];
+        let indexMax =startToBuy;
+        for(let i = startToBuy;i<quotes.length;i++){
+            if(max<quotes[i]){
+                max = quotes[i];
+                indexMax = i;
+            }
+        }
+        while (startToBuy<indexMax){
+            summOfSale+=quotes[indexMax] - quotes[startToBuy];
+            startToBuy++;
+        }
+        startToBuy++;
+    }
+    return summOfSale;
 }
 
 
