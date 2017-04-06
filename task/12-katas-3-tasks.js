@@ -39,7 +39,9 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
                 if(firstLetter===-1){
                     i++;
                 }else{
-                    if(find([i,firstLetter],toFind.slice(1), Array.prototype.slice.call(puzzleToFind)))
+                    const temp =Array.prototype.slice.call(puzzleToFind);
+                    temp[i]= temp[i].slice(0,firstLetter)+' '+temp[i].slice(firstLetter+1);
+                    if(find([i,firstLetter],toFind.slice(1),temp ))
                         return true;
                 }
                 if(i===puzzleToFind.length){
